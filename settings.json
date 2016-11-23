@@ -1,0 +1,6 @@
+{ "client": "pg",
+  "connection": {
+    "user": "precision",
+    "password": "decision",
+    "database": "pd_db"
+  }}
