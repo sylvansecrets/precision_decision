@@ -1,0 +1,23 @@
+{
+  "name": "midterm_project",
+  "version": "1.0.0",
+  "description": "implements ranked collaborative decision making",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sylvansecrets/precision_decision.git"
+  },
+  "keywords": [
+    "midterm",
+    "decision"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sylvansecrets/precision_decision/issues"
+  },
+  "homepage": "https://github.com/sylvansecrets/precision_decision#readme"
+}
