@@ -7,22 +7,27 @@ const knex = require('knex')(settings);
 const Promise = require('bluebird');
 
 
-// input_obj example
-// const input_obj = {
-//   timestamp: '2011-02-21',
-//   emails: {
-//     admin: 'admin@ads.com',
-//     others: ['a@a', 'b@b', 'c@c']
-//   },
-//   options: [
-//     {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
-//     {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
-//   ]
-// }
+// //input_obj example
+const input_obj = {
+  send: true,
+  timestamp: '2011-02-21',
+  expire: '2017-01-01',
+  emails: {
+    admin: 'admin@ads.com',
+    others: ['a@a', 'b@b', 'c@c']
+  },
+  options: [
+    {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
+    {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
+  ]
+}
+
+writePoll(input_obj);
 
 
 // input object needs to contain:
 //  timestamp: some sort of timestamp
+//  send: whether this should be sent
 //  emails: {
 //    admin: admin_email
 //    others: [other_emails]
@@ -34,8 +39,10 @@ function writePoll(input_obj){
   const emails = input_obj['emails'];
   const options = input_obj['options'];
   const create_time = input_obj['create_time'];
+  const isSent = input_obj['send'];
+  const expire = input_obj['expire'];
   knex.transaction(function(t){
-      injectPoll(create_time, t)
+      injectPoll(create_time, isSent, expire, t)
       .then(function(poll_id){
         console.log("new poll id", poll_id)
 
@@ -65,17 +72,23 @@ function writePoll(input_obj){
     console.log("Success, added user");
     process.exit();
   })
-  .catch(function(err){console.log("Failure", err)})
+  .catch(function(err){
+    console.log("Failure", err);
+    process.exit();
+  })
 
 }
 
-function injectPoll(create_time, transact){
+function injectPoll(create_time, isSent, expire, transact){
+  console.log("expire here", expire);
     return knex('polls')
       .transacting(transact)
       .returning('id')
       .insert({
           active: true,
-          created_at: create_time
+          created_at: create_time,
+          isSent: isSent,
+          expire: expire
         });
 }
 

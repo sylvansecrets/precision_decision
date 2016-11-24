@@ -3,9 +3,36 @@
     <% include ../partials/head %>
   <body>
     <% include ../partials/header %>
+    <div id="container">
+      <form action="" method="POST">
+        <h2>What's Your Question?</h2>
+        <span class="selectQuestion">
+          <textarea name="styled-textarea" class="questionTextarea" placeholder="What restaurant should we visit tonight?"></textarea>
+        </span>
 
-      <span class="button"><a href="/polls/new">Create Poll</span></a>
+        <h2>Choose Your Poll</h2>
 
+        <span class="button">Select 1</span>
+        <span class="button">Rank all</span>
+
+
+        <h2>Create Your Options</h2>
+        <span class="selectOptions">
+          <textarea name="styled-textarea" class="questionTextarea" placeholder="Whitespot"></textarea>
+          <img class="plusSign" src="img/plus.png">
+          <img class="minusSign" src="img/minus.png">
+        </span>
+
+        <h2>Enter Your Recipients Email</h2>
+        <span class="selectRecipients">
+          <textarea name="styled-textarea" class="questionTextarea" placeholder="JohnnyHockey@gmail.com"></textarea>
+          <img class="plusSign" src="img/plus.png">
+          <img class="minusSign" src="img/minus.png">
+        </span>
+
+        <span class="previewButton">Preview</span>
+      </form>
+    </div>
     <% include ../partials/footer %>
   </body>
 </html>
