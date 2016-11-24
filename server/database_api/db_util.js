@@ -64,14 +64,30 @@ function injectOption(option, poll_id){
         question_embed: option['question_embed']
       })
     .then((rows)=>{
-      console.log("Inserted user with id ", rows);
+      console.log("Inserted option with id ", rows);
     })
     .catch((err)=>{
-      console.log("Unable to insert user", err);
+      console.log("Unable to insert option", err);
     })
   }
 
-function inject
+function injectRanking(user_id, option_id, rank){
+   knex('rankings')
+    .returning('id')
+    .insert({
+      user_id: user_id,
+      option_id: option_id,
+      rank: rank
+    })
+  .then((rows)=>{
+    console.log("Inserted ranking with id ", rows);
+  })
+  .catch((err)=>{
+    console.log("Unable to insert ranking", err);
+  })
+}
+
+
 
 const templateObj = {
   timestamp: '2011-02-21',
@@ -90,4 +106,6 @@ function generateRandomString(num=16){
 }
 
 // injectPoll('2017-01-30');
-injectUser('z@z', 1, 3);
+// injectUser('z@z', 1, 3);
+// injectOption({question_text: 'flank', question_embed:'http://i.imgur.com/a0RPhmK.jpg'}, 2);
+// injectRanking(2,1,4);
