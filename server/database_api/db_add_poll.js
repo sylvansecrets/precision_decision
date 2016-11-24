@@ -44,6 +44,8 @@ function writePoll(input_obj){
   knex.transaction(function(t){
       injectPoll(create_time, isSent, expire, t)
       .then(function(poll_id){
+        poll_id = Number(poll_id[0]);
+
         console.log("new poll id", poll_id)
 
         let user_promise = [];
@@ -80,7 +82,6 @@ function writePoll(input_obj){
 }
 
 function injectPoll(create_time, isSent, expire, transact){
-  console.log("expire here", expire);
     return knex('polls')
       .transacting(transact)
       .returning('id')
@@ -93,11 +94,10 @@ function injectPoll(create_time, isSent, expire, transact){
 }
 
 function injectUser(email, admin_state, poll_id, transact){
-  console.log(email, poll_id);
   return knex('users')
       .transacting(transact)
       .insert({
-        poll_id: Number(poll_id[0]),
+        poll_id: poll_id,
         email: email,
         unique_string: generateRandomString(),
         admin: !!admin_state
@@ -108,7 +108,7 @@ function injectOption(option, poll_id, transact){
    return knex('options')
       .transacting(transact)
       .insert({
-        poll_id: Number(poll_id[0]),
+        poll_id: poll_id,
         question_text: option['question_text'],
         question_embed: option['question_embed']
       })
@@ -117,4 +117,12 @@ function injectOption(option, poll_id, transact){
 // generates a random alphanumeric string
 function generateRandomString(num=16){
   return Math.random().toString(36).substr(2,num);
+}
+
+module.exports = {
+  writePoll: writePoll,
+  injectPoll: injectPoll,
+  injectUser: injectUser,
+  injectOption: injectOption,
+  generateRandomString: generateRandomString
 }
