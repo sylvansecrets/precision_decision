@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>whatever</title>
+  </head>
+  <body>
+    <h4>options</h4>
+    <ul>
+       <% for (var question of questions) {%>
+        <li><%=question.question_text%></li>
+      <%} %>
+    </ul>
+    <h4>emails</h4>
+    <ul>
+      <% for (var email of emails) {%>
+        <li><%=email.email%></li>
+      <%} %>
+    </ul>
+  </body>
+</html>

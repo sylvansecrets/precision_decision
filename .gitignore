@@ -48,3 +48,5 @@ jspm_packages
 
 # Environment files
 .env
+
+.DS_Store
