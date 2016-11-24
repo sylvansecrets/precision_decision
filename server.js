@@ -12,6 +12,9 @@ const PORT = process.env.PORT || 8080;
 const config = require('./config')
 const knex = require('knex')(config);
 
+app.use(express.static("public"));
+app.use(express.static("views/partials"));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
@@ -21,7 +24,7 @@ app.set('view engine', 'ejs');
 // ####################################
 
   // Landing Page
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   res.render('pages/index');
 });
 
@@ -29,6 +32,7 @@ app.get("/", (req, res) => {
   // Create Poll Page
 app.get('/polls/new', (req, res) => {
   //always the same, empty skeleton
+  res.render('pages/new');
 });
 
 
@@ -41,7 +45,7 @@ app.post('/polls/id/preview', (req, res) => {
 
 
   // Gets preview of poll with footer
-app.get('/polls/id/preview', (req, res) => {
+app.get('/polls/:id/preview', (req, res) => {
   // retrieves poll and appends to DOM
   // and footer with two buttons: Send || Edit
 });
