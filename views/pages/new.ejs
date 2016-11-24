@@ -5,7 +5,23 @@
     <% include ../partials/header %>
 
       <form>
-      <h1>Post Your Question</h1>
+      <label for="postYourQuestion"><h2>Post Your Question</label></h2><br>
+      <textarea id="postQuestionTextarea"></textarea><br>
+      <label for="typeOfPoll"><h3>What Type of Poll?</label></h3><br>
+      <span class="button">Pick 1</span> |
+      <span class="button">Rank them</span><br><br>
+
+
+      <label for="labelQuestion"><h3>Your poll options</label></h3><br>
+      <textarea id="choicesTextarea"></textarea><br>
+
+
+
+
+
+
+
+      <input type="submit" value="Preview">
       </form>
 
     <% include ../partials/footer %>
