@@ -11,6 +11,7 @@ const Promise = require('bluebird');
 const input_obj = {
   send: true,
   timestamp: '2011-02-21',
+  expire: '2017-01-01',
   emails: {
     admin: 'admin@ads.com',
     others: ['a@a', 'b@b', 'c@c']
@@ -38,9 +39,10 @@ function writePoll(input_obj){
   const emails = input_obj['emails'];
   const options = input_obj['options'];
   const create_time = input_obj['create_time'];
-  const isSent = input_obj['sent'];
+  const isSent = input_obj['send'];
+  const expire = input_obj['expire'];
   knex.transaction(function(t){
-      injectPoll(create_time, isSent, t)
+      injectPoll(create_time, isSent, expire, t)
       .then(function(poll_id){
         console.log("new poll id", poll_id)
 
@@ -70,18 +72,23 @@ function writePoll(input_obj){
     console.log("Success, added user");
     process.exit();
   })
-  .catch(function(err){console.log("Failure", err)})
+  .catch(function(err){
+    console.log("Failure", err);
+    process.exit();
+  })
 
 }
 
-function injectPoll(create_time, isSent, transact){
+function injectPoll(create_time, isSent, expire, transact){
+  console.log("expire here", expire);
     return knex('polls')
       .transacting(transact)
       .returning('id')
       .insert({
           active: true,
           created_at: create_time,
-          isSent: isSent
+          isSent: isSent,
+          expire: expire
         });
 }
 
