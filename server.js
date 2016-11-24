@@ -52,10 +52,40 @@ app.get('/polls/:id/preview', (req, res) => {
 
 
   // Gets edit page
-app.get('/polls/id/edit', (req, res) => {
-  // if is_sent = false
-  // Retrieves poll and appends to DOM with /polls/new skeleton
+app.get('/polls/:id/edit', (req, res) => {
+  const pollId = req.params.id
+  function getQuestionsByPollId(pollId) {
+    return knex.select('question_text')
+        .from('polls')
+        .join('options', 'polls.id', '=', 'options.poll_id')
+        .where('polls.id', pollId)
+        .orderBy('options')
+
+  }
+  function getEmailsByPollId(pollId) {
+    return knex.select('email')
+        .from('polls')
+        .join('users', 'polls.id', '=', 'users.poll_id')
+        .where('polls.id', pollId)
+        .orderBy('email')
+  }
+  questionPromise = getQuestionsByPollId(pollId);
+  emailPromise = getEmailsByPollId(pollId);
+  Promise.all([questionPromise, emailPromise])
+  .then((resolutions) => {
+    console.log(resolutions);
+    res.render('pages/polls_edit', {
+      questions: resolutions[0],
+      emails: resolutions[1]
+    })
+  })
+  .catch((err)=> {
+    console.log("That poll does not exist.", err);
+    res.status(404).res.send('That poll does not exist.');
+  })
 });
+
+
 
 
   // Updates poll
