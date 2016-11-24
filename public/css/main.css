@@ -1,5 +1,109 @@
-// sorry I think I deleted all of your shit somehow...
-
 body {
-  background-color: blue;
+  background-color: lightblue;
+}
+
+h2 {
+  text-align: center;
+  font-size: 20px;
+}
+
+.button {
+  width: 150px;
+  height: 25px;
+  border: 1px solid black;
+  padding: 2px;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+  background-color: grey;
+  box-sizing: border-box;
+  opacity: .6;
+}
+
+.button:hover {
+  width: 150px;
+  height: 25px;
+  border: 1px solid black;
+  padding: 2px;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+  background-color: grey;
+  box-sizing: border-box;
+  opacity: 1;
+}
+
+#container {
+  text-align: center;
+}
+
+textarea {
+  display: inline-block;
+  width: 400px;
+  height: 30px;
+  border: 1px solid black;
+  padding: 2px;
+  border-radius: 8px;
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+   line-height: 30px;
+}
+
+.selectOptions {
+}
+
+.plusSign {
+  display: inline-block;
+  width: 20px;
+  opacity: .6;
+}
+
+.plusSign:hover {
+  display: inline-block;
+  width: 20px;
+  opacity: 1;
+}
+
+.minusSign {
+  display: inline-block;
+  width: 20px;
+  opacity: .6;
+}
+
+.minusSign:hover {
+  display: inline-block;
+  width: 20px;
+  opacity: 1;
+}
+
+.previewButton {
+  width: 400px;
+  height: 100px;
+  border: 1px solid black;
+  padding: 2px;
+  border-radius: 8px;
+  display: block;
+  background-color: grey;
+  line-height: 100px;
+  box-sizing: border-box;
+  opacity: .6;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.previewButton:hover {
+  width: 400px;
+  height: 100px;
+  border: 1px solid black;
+  padding: 2px;
+  border-radius: 8px;
+  display: block;
+  background-color: grey;
+  line-height: 100px;
+  box-sizing: border-box;
+  opacity: 1;
+  margin: auto;
+  margin-top: 40px;
 }
