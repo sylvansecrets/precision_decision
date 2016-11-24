@@ -28,35 +28,42 @@ app.get("/", (req, res) => {
   res.render('pages/index');
 });
 
-  // Create Poll
-app.get('/new_poll', (req, res) => {
-  // Render skeleton for poll
-    //
+  // Create Poll Page
+app.get('/polls/new', (req, res) => {
+  //always the same, empty skeleton
 });
 
-  // Confirm Poll
-app.get('new_poll/confirm', (req, res) => {
-
+  // Sends initial poll data to db and loads preview
+app.post('/polls/id/preview', (req, res) => {
+  // Adds poll to database, leaving is_sent = false
+  // Creates all necessary unique IDs
+  // redirects to get /polls/id/preview
 });
 
-
-        //             Poll
-        // ############################
-
-  // Submit Poll after Confirmation
-app.post('/new_poll/submit', (req, res) => {
-
+  // Gets preview of poll with footer
+app.get('/polls/id/preview', (req, res) => {
+  // retrieves poll and appends to DOM
+  // and footer with two buttons: Send || Edit
 });
 
-  // View Poll as Voter
-app.get('/poll/:poll_id/:unique_id', (req, res) => {
-
+  // Gets edit page
+app.get('/polls/id/edit', (req, res) => {
+  // if is_sent = false
+  // Retrieves poll and appends to DOM with /polls/new skeleton
 });
 
-  // Submit or Update Vote
-app.post('/poll/:poll_id/:unique_id', (req, res) => {
-
+  // Updates poll
+app.post('/polls/id/edit', (req, res) => {
+  // if is_sent = false
+  // Updates database
 });
+
+  // Submits poll
+app.post('/polls/id/submit', (req,res) => {
+  // Mailgun is initiated and poll links are sent
+  // is_sent = true
+});
+
 
 
 
