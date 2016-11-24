@@ -20,18 +20,17 @@ app.set('view engine', 'ejs');
 //                Routes
 // ####################################
 
-        //         Create Poll
-        // ############################
-
   // Landing Page
 app.get("/", (req, res) => {
   res.render('pages/index');
 });
 
+
   // Create Poll Page
 app.get('/polls/new', (req, res) => {
   //always the same, empty skeleton
 });
+
 
   // Sends initial poll data to db and loads preview
 app.post('/polls/id/preview', (req, res) => {
@@ -40,11 +39,13 @@ app.post('/polls/id/preview', (req, res) => {
   // redirects to get /polls/id/preview
 });
 
+
   // Gets preview of poll with footer
 app.get('/polls/id/preview', (req, res) => {
   // retrieves poll and appends to DOM
   // and footer with two buttons: Send || Edit
 });
+
 
   // Gets edit page
 app.get('/polls/id/edit', (req, res) => {
@@ -52,18 +53,19 @@ app.get('/polls/id/edit', (req, res) => {
   // Retrieves poll and appends to DOM with /polls/new skeleton
 });
 
+
   // Updates poll
 app.post('/polls/id/edit', (req, res) => {
   // if is_sent = false
   // Updates database
 });
 
+
   // Submits poll
 app.post('/polls/id/submit', (req,res) => {
   // Mailgun is initiated and poll links are sent
   // is_sent = true
 });
-
 
 
 
