@@ -1,29 +1,40 @@
 /*BODY STRUCTURE*/
 body {
-  background-color: lightblue;
+  background-color: white;
+  font-family: 'Rubik Mono One', sans-serif;
 }
 
 h2 {
   text-align: center;
   font-size: 20px;
+  color: #0062ff;
 }
 
-/*BUTTONS FOR POLL TYPES*/
-.button {
-  width: 150px;
-  height: 25px;
-  border: 1px solid black;
-  padding: 2px;
-  border-radius: 8px;
+header {
   text-align: center;
-  display: inline-block;
-  background-color: grey;
-  box-sizing: border-box;
-  opacity: .6;
+  height: 150px;
+  margin-top: 20px;
 }
 
-.button:hover {
-  opacity: 1;
+textarea.questionTextarea {
+  font-size: 15px;
+}
+
+textarea.optionsTextarea {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+textarea.emailTextarea {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+input[type="text"] {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 28px;
 }
 
 /*OVERALL CONTAINER FOR ENTIRE FORM*/
@@ -36,9 +47,15 @@ textarea {
   display: inline-block;
   width: 400px;
   height: 30px;
-  border: 1px solid black;
-  padding: 2px;
+  border: 2px solid black;
   border-radius: 8px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+textarea:hover {
+  background-color: #0062ff;
+  opacity: .4;
 }
 
 /*CENTERING ALL PLACEHOLDERS*/
@@ -105,16 +122,16 @@ textarea {
 .previewButton {
   width: 400px;
   height: 100px;
-  border: 1px solid black;
+  border: 2px solid black;
   padding: 2px;
   border-radius: 8px;
   display: block;
-  background-color: grey;
+  background-color: #0062ff;
   line-height: 100px;
   box-sizing: border-box;
-  opacity: .6;
+  opacity: .7;
   margin: auto;
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 .previewButton:hover {
