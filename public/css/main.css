@@ -1,3 +1,4 @@
+/*BODY STRUCTURE*/
 body {
   background-color: lightblue;
 }
@@ -7,6 +8,7 @@ h2 {
   font-size: 20px;
 }
 
+/*BUTTONS FOR POLL TYPES*/
 .button {
   width: 150px;
   height: 25px;
@@ -21,22 +23,15 @@ h2 {
 }
 
 .button:hover {
-  width: 150px;
-  height: 25px;
-  border: 1px solid black;
-  padding: 2px;
-  border-radius: 8px;
-  text-align: center;
-  display: inline-block;
-  background-color: grey;
-  box-sizing: border-box;
   opacity: 1;
 }
 
+/*OVERALL CONTAINER FOR ENTIRE FORM*/
 #container {
   text-align: center;
 }
 
+/*TEXTAREA FOR INITIAL POLL QUESTION*/
 textarea {
   display: inline-block;
   width: 400px;
@@ -46,38 +41,67 @@ textarea {
   border-radius: 8px;
 }
 
+/*CENTERING ALL PLACEHOLDERS*/
 ::-webkit-input-placeholder {
    text-align: center;
    line-height: 30px;
 }
 
-.selectOptions {
+/*TEXTAREA FOR POLL OPTIONS/SELECTIONS*/
+.optionsTextarea {
+  margin: 0 auto;
+  display: block;
 }
 
-.plusSign {
+/*TEXTAREA FOR POLL EMAIL RECIPIENTS*/
+.emailTextarea {
+  margin: 0 auto;
+  display: block;
+}
+
+/*PLUS & MINUS ICONS FOR OPTIONS TEXTBOXES*/
+.plusOptions {
   display: inline-block;
   width: 20px;
   opacity: .6;
 }
 
-.plusSign:hover {
-  display: inline-block;
-  width: 20px;
+.plusOptions:hover {
   opacity: 1;
 }
 
-.minusSign {
+.minusOptions {
   display: inline-block;
   width: 20px;
   opacity: .6;
 }
 
-.minusSign:hover {
-  display: inline-block;
-  width: 20px;
+.minusOptions:hover {
   opacity: 1;
 }
 
+/*PLUS & MINUS ICONS FOR EMAILS TEXTBOXES*/
+.plusEmails {
+  display: inline-block;
+  width: 20px;
+  opacity: .6;
+}
+
+.plusEmails:hover {
+  opacity: 1;
+}
+
+.minusEmails {
+  display: inline-block;
+  width: 20px;
+  opacity: .6;
+}
+
+.minusEmails:hover {
+  opacity: 1;
+}
+
+/*PREVIEW/SUBMIT BUTTON*/
 .previewButton {
   width: 400px;
   height: 100px;
@@ -94,16 +118,5 @@ textarea {
 }
 
 .previewButton:hover {
-  width: 400px;
-  height: 100px;
-  border: 1px solid black;
-  padding: 2px;
-  border-radius: 8px;
-  display: block;
-  background-color: grey;
-  line-height: 100px;
-  box-sizing: border-box;
   opacity: 1;
-  margin: auto;
-  margin-top: 40px;
 }
