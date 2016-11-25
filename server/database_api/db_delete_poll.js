@@ -7,7 +7,7 @@ const knex = require('knex')(settings);
 const Promise = require('bluebird');
 
 function deletePoll(unique_string, input_obj){
-  knex('users')
+  return knex('users')
   .first('poll_id')
   .where({
     'unique_string': unique_string,

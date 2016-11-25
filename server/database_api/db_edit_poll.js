@@ -33,7 +33,7 @@ const add_poll = require('./db_add_poll')
 
 // for admins only
 function editPoll(unique_string, input_obj){
-  knex('users')
+  return knex('users')
   .first('poll_id')
   .where({
     'unique_string': unique_string,

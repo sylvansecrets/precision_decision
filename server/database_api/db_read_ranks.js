@@ -10,7 +10,7 @@ const Promise = require('bluebird');
 
 
 function readRanks(unique_string){
-  knex('users')
+  return knex('users')
   .first('poll_id')
   .where('unique_string', unique_string)
   .then(function(poll_id){
