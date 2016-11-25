@@ -12,7 +12,7 @@ $(function() {
   $(".plusOptions").click(function () {
     var input = $('.optionsTextarea').val();
     var spanClass = $('#container').find('.selectOptions');
-    $(spanClass).append(`<textarea name="styled-textarea" class="optionsTextarea" placeholder="${input}"></textarea>`);
+    $(spanClass).append(`<textarea name="styled-textarea" class="optionsTextarea"></textarea>`);
     minusSigns();
   })
 
@@ -34,7 +34,7 @@ $(function() {
   $(".plusEmails").click(function () {
     var input = $('.emailTextarea').val();
     var spanClass3 = $('#container').find('.selectRecipients');
-    $(spanClass3).append(`<textarea name="styled-textarea" class="emailTextarea" placeholder="JohnnyHockey@gmail.com"></textarea>`);
+    $(spanClass3).append(`<textarea name="styled-textarea" class="emailTextarea"></textarea>`);
     minusSigns2();
   })
 
