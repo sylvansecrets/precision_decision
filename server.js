@@ -56,18 +56,26 @@ app.post('/polls/:id/preview', (req, res) => {
 // |     Gets preview of poll with footer     |
 // +------------------------------------------+
 app.get('/polls/:id/preview', (req, res) => {
-  const pollId = req.params.id
-  function getAdminBool(pollId) {
+  const uniqueId = req.params.id
+  let pollId = null;
+  let optionPromise = null;
+  let emailPromise = null;
+  let isSentBoolPromise = null;
+  let adminBool = null;
+
+
+  function getAdminBool(uniqueId) {
     return knex.select('admin')
         .from('users')
-        .where('poll_id', pollId);
+        .where('unique_string', uniqueId);
   }
   function getIsSentBool(pollId) {
     return knex.select('isSent')
         .from('polls')
         .where('id', pollId);
   }
-  function getQuestionsByPollId(pollId) {
+  // function to get question
+  function getOptionsByPollId(pollId) {
     return knex.select('question_text')
         .from('polls')
         .join('options', 'polls.id', '=', 'options.poll_id')
@@ -81,29 +89,40 @@ app.get('/polls/:id/preview', (req, res) => {
         .where('polls.id', pollId)
         .orderBy('email');
   }
-  questionPromise = getQuestionsByPollId(pollId);
-  emailPromise = getEmailsByPollId(pollId);
-  isSentBoolPromise = getIsSentBool(pollId);
-  adminBool = getAdminBool(pollId);
-  Promise.all([     questionPromise,
-                    emailPromise,
-                    isSentBoolPromise,
-                    adminBool
-              ])
-  .then((resolutions) => {
-    console.log(resolutions);
 
-    res.render('pages/polls_preview', {
-      questions: resolutions[0],
-      emails: resolutions[1],
-      isSent: resolutions[2],
-      admin: resolutions[3]
-    })
-  })
-  .catch((err)=> {
-    console.log("That poll does not exist.", err);
-    res.status(404).res.send('That poll does not exist.');
-  })
+  function getDataForPollAndRender(uniqueId) {
+    knex.select('poll_id')
+        .from('users')
+        .where('unique_string', uniqueId)
+        .then((resolutions) => {
+          pollId = resolutions[0].poll_id;
+          optionPromise = getOptionsByPollId(pollId);
+          emailPromise = getEmailsByPollId(pollId);
+          isSentBoolPromise = getIsSentBool(pollId);
+          adminBool = getAdminBool(uniqueId);
+          Promise.all([
+                      optionPromise,
+                      emailPromise,
+                      isSentBoolPromise,
+                      adminBool
+                ])
+          .then((resolutions) => {
+            console.log(resolutions);
+            res.render('pages/poll', {
+              options: resolutions[0],
+              emails: resolutions[1],
+              isSent: resolutions[2],
+              admin: resolutions[3]
+            })
+          })
+          .catch((err)=> {
+            console.log("That poll does not exist.", err);
+            res.status(404).res.send('That poll does not exist.');
+          })
+          return;
+        });
+  }
+  getDataForPollAndRender(uniqueId);
 });
 
 
@@ -117,7 +136,7 @@ app.get('/polls/:id/preview', (req, res) => {
 app.get('/polls/:id/edit', (req, res) => {
   const pollId = req.params.id
 
-  function getQuestionsByPollId(pollId) {
+  function getOptionsByPollId(pollId) {
     return knex.select('question_text')
         .from('polls')
         .join('options', 'polls.id', '=', 'options.poll_id')
@@ -131,12 +150,12 @@ app.get('/polls/:id/edit', (req, res) => {
         .where('polls.id', pollId)
         .orderBy('email')
   }
-  questionPromise = getQuestionsByPollId(pollId);
+  optionPromise = getOptionsByPollId(pollId);
   emailPromise = getEmailsByPollId(pollId);
-  Promise.all([questionPromise, emailPromise])
+  Promise.all([optionPromise, emailPromise])
   .then((resolutions) => {
     console.log(resolutions);
-    res.render('pages/polls', {
+    res.render('pages/poll', {
       questions: resolutions[0],
       emails: resolutions[1]
     })
