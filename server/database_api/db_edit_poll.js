@@ -11,24 +11,25 @@ const add_poll = require('./db_add_poll')
 // edit a poll
 
 // //input_obj example
-const input_obj = {
-  send: true,
-  timestamp: '2011-02-21',
-  expire: '2017-01-01',
-  emails: {
-    admin: 'admin@ads.com',
-    others: ['z@a', 'y@b', 'e@c']
-  },
-  options: [
-    {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
-    {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
-  ]
-}
+// const input_obj = {
+//   send: true,
+//   timestamp: '2011-02-21',
+//   expire: '2017-01-01',
+//   question: 'bet on the better butter',
+//   emails: {
+//     admin: 'admin@ads.com',
+//     others: ['z@a', 'y@b', 'e@c']
+//   },
+//   options: [
+//     {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
+//     {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
+//   ]
+// }
 
-let uid = '1ihv9eejr6i6ylsh';
-let ufid = 'wg2fjbny3djuje6h';
+// let uid = '5uhnq0vd7hddzr0u';
+// let ufid = '54r4g4s41kmy72vu';
 
-editPoll(uid, input_obj);
+// editPoll(ufid, input_obj);
 
 // for admins only
 function editPoll(unique_string, input_obj){
@@ -59,11 +60,12 @@ function replacePoll(poll_id, input_obj){
   const options = input_obj['options'];
   const isSent = input_obj['send'];
   const expire = input_obj['expire'];
+  const question = input_obj['question'];
 
   console.log(poll_id);
 
   return knex.transaction(function(t){
-    ripPoll(poll_id, isSent, expire, t)
+    ripPoll(poll_id, isSent, expire, question, t)
     .then(function(){
 
       let user_promise = [];
@@ -92,13 +94,14 @@ function replacePoll(poll_id, input_obj){
 
 }
 
-function ripPoll(poll_id, isSent, expire, transact){
+function ripPoll(poll_id, isSent, expire, question, transact){
   return knex('polls')
     .transacting(transact)
     .where('id', poll_id)
     .update({
       'isSent': isSent,
       'expire': expire,
+      'question': question
     })
 }
 
@@ -132,4 +135,8 @@ function ripOption(option, poll_id, transact){
 // generates a random alphanumeric string
 function generateRandomString(num=16){
   return Math.random().toString(36).substr(2,num);
+}
+
+module.exports = {
+  editPoll: editPoll
 }
