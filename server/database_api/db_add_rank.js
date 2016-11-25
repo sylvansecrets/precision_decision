@@ -8,8 +8,8 @@ const Promise = require('bluebird');
 
 // unique_string, options:rank
 
-const options_rank = {2: 4, 1: 2};
-const st = 'x711wtbpk9mk1gh5'
+// const options_rank = {2: 4, 1: 2};
+// const st = 'x711wtbpk9mk1gh5'
 
 function addRank(unique_string, options_rank){
   knex.transaction(function(t){
@@ -49,4 +49,6 @@ function injectRank(user_id, option_id, rank, transact){
       })
 }
 
-addRank(st, options_rank);
+// addRank(st, options_rank);
+
+module.exports = {addRank: addRank}
