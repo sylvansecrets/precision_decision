@@ -1,23 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  <% include ../partials/head %>
-  </head>
+  <% include ../partials/pollHead %>
   <body>
-  <% include ../partials/header %>
-    <section id="pollSection">
-      <h3 id="pollQuestion">In this case it's hard-coded</h3>
-      <ul id="pollList">
-        <%for (let option of options) { %>
-        <li><%= option.question_text %></li>
+    <!-- Header Partial -->
+    <% include ../partials/header %>
+
+
+
+    <!-- Main Section where Poll Options Exist -->
+    <section id="pollWrap">
+
+      <!-- Loads Admin Partial (conditional) -->
+      <%if (!isSent[0].isSent) {%>
+        <%if(admin[0].admin) {%>
+          <% include ../partials/admin %>
         <%}%>
-      </ul>
+      <%}%>
+
+      <h3 id="pollQuestion">In this case it's hard-coded</h3>
+
+      <!-- Poll List -->
+      <section id="pollListWrap">
+        <ul id="pollList">
+          <%for (let option of options) { %>
+            <li class="pollListItem"><%= option.question_text %></li>
+          <%}%>
+        </ul>
+      </section>
+
+      <!-- Loads the Limbo Partial (conditional) -->
+      <% if(!isSent[0].isSent) {%>
+        <%include ../partials/limbo%>
+      <%}%>
+
+      <!-- Loads the Voting Partial (conditional) -->
+      <% if(isSent[0].isSent) {%>
+        <%include ../partials/voting%>
+      <%}%>
+
+      <!--
+        ToDo
+        : conditions for vote/update
+          : if isSent[0]
+            : if voted
+        : countdown til close (jQuery UI)
+          : end date - current time
+
+       -->
+
     </section>
 
-    <!-- Loads the Limbo Partial -->
-    <% if(!isSent.isSent) {%>
-      <%include ../partials/limbo%>
-    <%}%>
+
     <% include ../partials/footer %>
   </body>
 </html>
