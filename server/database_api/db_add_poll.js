@@ -89,7 +89,6 @@ function injectPoll(create_time, isSent, expire, question, transact){
       .transacting(transact)
       .returning('id')
       .insert({
-          active: true,
           created_at: create_time,
           isSent: isSent,
           expire: expire,
