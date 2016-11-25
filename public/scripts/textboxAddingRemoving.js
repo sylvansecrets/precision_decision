@@ -1,78 +1,48 @@
-$('.plusSign').click(function () {
-    var textbox = $(this).closest('textbox');
-    console.log(textbox);
-    // if (textbox.find('input:text').length < 7) {
-    //     textbox.append('<span class="selectQuestion"><textarea name="styled-textarea" class="questionTextarea" placeholder="What restaurant should we visit tonight?"></textarea></span>');
-    // }
+$(function() {
+
+//////////////////////// FUNCTION FOR OPTIONS TEXTBOXES ////////////////////
+
+  function minusSigns() {
+  if ($(".selectOptions").find(".optionsTextarea").length > 1) {
+    $(".minusOptions").show();
+  } else $(".minusOptions").hide();
+  }
+  minusSigns();
+
+  $(".plusOptions").click(function () {
+    var input = $('.optionsTextarea').val();
+    var spanClass = $('#container').find('.selectOptions');
+    $(spanClass).append(`<textarea name="styled-textarea" class="optionsTextarea"></textarea>`);
+    minusSigns();
+  })
+
+  $(".minusOptions").click(function () {
+    var spanClass2 = $('.selectOptions').find('.optionsTextarea');
+    spanClass2.last().remove();
+    minusSigns();
+  });
+
+//////////////////////// FUNCTION FOR EMAIL TEXTBOXES /////////////////////
+
+  function minusSigns2() {
+    if ($(".selectRecipients").find(".emailTextarea").length > 1) {
+      $(".minusEmails").show();
+    } else $(".minusEmails").hide();
+  }
+  minusSigns2();
+
+  $(".plusEmails").click(function () {
+    var input = $('.emailTextarea').val();
+    var spanClass3 = $('#container').find('.selectRecipients');
+    $(spanClass3).append(`<textarea name="styled-textarea" class="emailTextarea"></textarea>`);
+    minusSigns2();
+  })
+
+  $(".minusEmails").click(function () {
+    var spanClass4 = $('.selectRecipients').find('.emailTextarea');
+    spanClass4.last().remove();
+    minusSigns2();
+  });
+
 });
-$('.minusSign').click(function () {
-    var textbox = $(this).closest('textbox');
-    if (textbox.find('input:text').length > 1) {
-        textbox.find('input:text').last().closest('textarea').remove();
-    }
-});
 
-
-
-
-
-
-
-
-// $(document).ready(function(){
-//     var counter = 2;
-
-//     $(".plusSign").click(function () {
-
-//   if(counter>10){
-//             alert("Sorry, only 10 please!");
-//             return false;
-//   }
-
-//   var newTextBoxSpan = $(document.createElement('span'))
-//        .attr("class", 'TextBoxSpan' + counter);
-
-
-//   newTextBoxSpan.after().html('<label>Textbox #'+ counter + ' : </label>' +
-//         '<input type="text" name="textbox' + counter +
-//         '" class="textbox' + counter + '" value="" >');
-
-//   newTextBoxSpan.appendTo(".selectOptions");
-
-//   counter++;
-//      })
-
-//   });
-
-
-////////////////////////////////////////////////////////////////
-
-    // REMOVING TEXTBOX BUTTON - NOT USING CURRENTLY
-
-  //    $("#removeButton").click(function () {
-  // if(counter==1){
-  //         alert("No more textbox to remove");
-  //         return false;
-  //      }
-
-  // counter--;
-
-  //       $("#TextBoxDiv" + counter).remove();
-
-  //    });
-
-
-
-
-// GET BUTTON VALUE - (NOT NEEDED)
-
-
-  //    $("#getButtonValue").click(function () {
-
-  // var msg = '';
-  // for(i=1; i<counter; i++){
-  //     msg += "\n Textbox #" + i + " : " + $('#textbox' + i).val();
-  // }
-  //       alert(msg);
-  //    });
-  // });

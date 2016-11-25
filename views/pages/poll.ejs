@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <% include ../partials/head %>
+  </head>
+  <body>
+  <% include ../partials/header %>
+    <section id="pollSection">
+      <h3 id="pollQuestion">In this case it's hard-coded</h3>
+      <ul id="pollList">
+        <%for (let option of options) { %>
+        <li><%= option.question_text %></li>
+        <%}%>
+      </ul>
+    </section>
+
+    <!-- Loads the Limbo Partial -->
+    <% if(!isSent.isSent) {%>
+      <%include ../partials/limbo%>
+    <%}%>
+    <% include ../partials/footer %>
+  </body>
+</html>
