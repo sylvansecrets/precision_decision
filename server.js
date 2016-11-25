@@ -55,14 +55,9 @@ app.post('/polls/:id/preview', (req, res) => {
 // +------------------------------------------+
 // |     Gets preview of poll with footer     |
 // +------------------------------------------+
-app.get('/polls/:id/preview', (req, res) => {
-  const uniqueId = req.params.id
-  let pollId = null;
-  let optionPromise = null;
-  let emailPromise = null;
-  let isSentBoolPromise = null;
-  let adminBool = null;
+app.get('/polls/:id', (req, res) => {
 
+  const uniqueId = req.params.id
 
   function getAdminBool(uniqueId) {
     return knex.select('admin')
@@ -90,38 +85,41 @@ app.get('/polls/:id/preview', (req, res) => {
         .orderBy('email');
   }
 
+
+
   function getDataForPollAndRender(uniqueId) {
     knex.select('poll_id')
         .from('users')
         .where('unique_string', uniqueId)
         .then((resolutions) => {
-          pollId = resolutions[0].poll_id;
-          optionPromise = getOptionsByPollId(pollId);
-          emailPromise = getEmailsByPollId(pollId);
-          isSentBoolPromise = getIsSentBool(pollId);
-          adminBool = getAdminBool(uniqueId);
-          Promise.all([
-                      optionPromise,
-                      emailPromise,
-                      isSentBoolPromise,
-                      adminBool
+          const pollId = resolutions[0].poll_id;
+          return Promise.all([
+                      getOptionsByPollId(pollId),
+                      getEmailsByPollId(pollId),
+                      getIsSentBool(pollId),
+                      getAdminBool(uniqueId)
                 ])
-          .then((resolutions) => {
-            console.log(resolutions);
-            res.render('pages/poll', {
-              options: resolutions[0],
-              emails: resolutions[1],
-              isSent: resolutions[2],
-              admin: resolutions[3]
-            })
+        })
+        .then((resolutions) => {
+          console.log('this is res', resolutions);
+          res.render('pages/poll', {
+            options: resolutions[0],
+            emails: resolutions[1],
+            isSent: resolutions[2],
+            admin: resolutions[3]
+            // expires at
+            // question text
+            // if rank is null
+            // select
           })
-          .catch((err)=> {
-            console.log("That poll does not exist.", err);
-            res.status(404).res.send('That poll does not exist.');
-          })
-          return;
-        });
+        })
+        .catch((err)=> {
+          console.log("That poll does not exist.", err);
+          res.status(404).send('That poll does not exist.');
+        })
+        return;
   }
+  if(uniqueId)
   getDataForPollAndRender(uniqueId);
 });
 
