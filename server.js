@@ -11,6 +11,8 @@ const bodyParser  = require('body-parser');
 const PORT        = process.env.PORT || 8080;
 const config      = require('./config');
 const knex        = require('knex')(config);
+const commitPollToDb = require('./server/database_api/db_add_poll');
+const commitEditsToDb = require('./server/database_api/db_edit_poll');
 
 app.use(express.static("public"));
 //app.use(express.static("views/partials"));
@@ -23,7 +25,9 @@ app.set('view engine', 'ejs');
 
   // Landing Page // Create Poll Page
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  res.render('pages/index', {
+    edit: false;
+  });
 });
 
 
@@ -37,11 +41,8 @@ app.get('/', (req, res) => {
   // Sends initial poll data to db and loads preview
 app.post('/polls/:id/preview', (req, res) => {
   // Adds poll to database, leaving is_sent = false
-
-  // #################################
-  //   This is where we use add_poll
-  // #################################
-
+  const poll
+  commitPollToDb
   // Creates all necessary unique IDs
   // redirects to get /polls/id/preview
 });
@@ -108,23 +109,23 @@ app.get('/polls/:id/edit', (req, res) => {
     console.log(resolutions);
     res.render('pages/polls_edit', {
       questions: resolutions[0],
-      emails: resolutions[1]
+      emails: resolutions[1],
+      edit: true;
     })
   })
   .catch((err)=> {
     console.log("That poll does not exist.", err);
     res.status(404).res.send('That poll does not exist.');
   })
-
 });
 
 
 
-
-  // Updates poll
+// +------------------------------------------+
+// |        Commits Edits to Database         |
+// +------------------------------------------+
 app.post('/polls/:id/edit', (req, res) => {
-  // if is_sent = false
-  // Updates database
+
 });
 
 
