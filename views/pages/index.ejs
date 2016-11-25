@@ -6,26 +6,28 @@
     <div id="container">
       <form action="" method="POST">
 
-        <h2>What's Your Question?</h2>
+        <h2>What's Your Burning Question?</h2>
         <span class="selectQuestion">
           <textarea name="styled-textarea" input="text" class="questionTextarea" placeholder="What movie should we see?"></textarea>
         </span>
 
-        <h2>Create Your Options</h2>
+        <h2>What Are The Options?</h2>
         <span class="selectOptions">
           <textarea name="styled-textarea" class="optionsTextarea" placeholder="Bad Santa 2"></textarea>
         </span>
         <img class="plusOptions" src="img/plusOptions.png">
         <img class="minusOptions" src="img/minusOptions.png">
 
-        <h2>Enter Recipient Emails</h2>
+        <h2>Who Are You Asking?</h2>
         <span class="selectRecipients">
           <textarea name="styled-textarea" class="emailTextarea" placeholder="JohnnyHockey@gmail.com"></textarea>
         </span>
         <img class="plusEmails" src="img/plusEmails.png">
         <img class="minusEmails" src="img/minusEmails.png">
 
-        <span class="previewButton">Preview Poll</span>
+        <a style="display:block" href="http://www.google.com">
+          <span class="previewButton">Preview Poll</span>
+        </a>
       </form>
     </div>
     <% include ../partials/footer %>

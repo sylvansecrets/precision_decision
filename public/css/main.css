@@ -120,7 +120,7 @@ textarea:hover {
 
 /*PREVIEW/SUBMIT BUTTON*/
 .previewButton {
-  width: 400px;
+  width: 300px;
   height: 100px;
   border: 2px solid black;
   padding: 2px;
@@ -136,4 +136,7 @@ textarea:hover {
 
 .previewButton:hover {
   opacity: 1;
+}
+
+a:active {color: black;
 }
