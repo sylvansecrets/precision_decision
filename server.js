@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 // Creates new poll
 app.post('/polls/create_new', (req, res) => {
   // Adds poll to database, leaving is_sent = false
-
+console.log('this is req.body: ', req.body);
   console.log('this is the new object: ', createInputObject(req.body));
 
 
@@ -203,15 +203,3 @@ app.post('/polls/:id/submit', (req,res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 })
-
-
-
-
-
-
-
-
-
-
-
-
