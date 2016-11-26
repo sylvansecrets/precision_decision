@@ -44,7 +44,7 @@ function writePoll(input_obj){
   const isSent = input_obj['send'];
   const expire = input_obj['expire'];
   const question = input_obj['question'];
-  knex.transaction(function(t){
+  return knex.transaction(function(t){
       injectPoll(create_time, isSent, expire, question, t)
       .then(function(poll_id){
         poll_id = Number(poll_id[0]);

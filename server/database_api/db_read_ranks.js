@@ -8,9 +8,8 @@ const Promise = require('bluebird');
 
 // given a unique string (of either visitor or admin), retreive the current ranks
 
-
 function readRanks(unique_string){
-  knex('users')
+  return knex('users')
   .first('poll_id')
   .where('unique_string', unique_string)
   .then(function(poll_id){
@@ -18,6 +17,7 @@ function readRanks(unique_string){
       throw new Error ('not a user')
     } else {
       poll_id = poll_id['poll_id']
+      console.log('poll', poll_id)
       return retreiveRanks(poll_id)
     }
   })
@@ -32,18 +32,10 @@ function readRanks(unique_string){
 }
 
 function retreiveRanks(poll_id){
-  // return knex('rankings')
-  //   .join(
-  //     knex('users')
-  //       .select('id')
-  //       .where('poll_id', poll_id),
-  //       'users.id', '=', 'rankings.user_id'
-  //     )
   return knex.raw(
-    `SELECT 'user_id', 'rank' FROM (SELECT 'user_id' FROM users WHERE poll_id = ${poll_id}) AS approved_user INNER JOIN rankings ON ('rankings.user_id' = 'approved_user.id')`
+    `select unique_string, option_id, rank from rankings where unique_string IN (select unique_string from users where poll_id = ${poll_id})`
     )
 }
 
 const addRank = require('./db_add_rank').addRank
-addRank('17zu3myr41gqqiro', {1:2, 2:3, 3:1})
-readRanks('17zu3myr41gqqiro');
+readRanks('1912uf0h9z31a9f6');
