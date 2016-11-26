@@ -39,11 +39,9 @@ app.get('/', (req, res) => {
 
 // Creates new poll
 app.post('/polls/create_new', (req, res) => {
-  // Adds poll to database, leaving is_sent = false
-console.log('this is req.body: ', req.body);
   console.log('this is the new object: ', createInputObject(req.body));
-
-
+  const input_object = createInputObject(req.body);
+  writePoll(input_object);
   const pollId = 'w97z4q0xitigfcng';
   // Creates all necessary unique IDs
   // redirects to get /polls/id/preview
