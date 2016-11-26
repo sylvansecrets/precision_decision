@@ -16,9 +16,10 @@
           <% include ../partials/admin %>
         <%}%>
       <%}%>
-
-      <h3 id="pollQuestion">In this case it's hard-coded</h3>
-
+      <span>this is admin: <%= admin[0].admin %></span>
+      <span>this is isSent: <%= isSent[0].isSent%></span>
+      <h3 id="pollQuestion"><%= question[0].question %></h3>
+      <h4>Poll expires: <%= expires[0].expire %></h4>
       <!-- Poll List -->
       <section id="pollListWrap">
         <ul id="pollList">
@@ -27,6 +28,8 @@
           <%}%>
         </ul>
       </section>
+
+
 
       <!-- Loads the Limbo Partial (conditional) -->
       <% if(!isSent[0].isSent) {%>

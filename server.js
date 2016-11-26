@@ -85,7 +85,17 @@ app.get('/polls/:id', (req, res) => {
         .orderBy('email');
   }
 
+  function getExpiry(pollId) {
+    return knex.select('expire')
+               .from('polls')
+               .where('id', pollId);
+  }
 
+  function getQuestion(pollId) {
+    return knex.select('question')
+               .from('polls')
+               .where('id', pollId);
+  }
 
   function getDataForPollAndRender(uniqueId) {
     knex.select('poll_id')
@@ -97,7 +107,9 @@ app.get('/polls/:id', (req, res) => {
                       getOptionsByPollId(pollId),
                       getEmailsByPollId(pollId),
                       getIsSentBool(pollId),
-                      getAdminBool(uniqueId)
+                      getAdminBool(uniqueId),
+                      getExpiry(pollId),
+                      getQuestion(pollId)
                 ])
         })
         .then((resolutions) => {
@@ -106,11 +118,10 @@ app.get('/polls/:id', (req, res) => {
             options: resolutions[0],
             emails: resolutions[1],
             isSent: resolutions[2],
-            admin: resolutions[3]
-            // expires at
-            // question text
+            admin: resolutions[3],
+            expires: resolutions[4],
+            question: resolutions[5]
             // if rank is null
-            // select
           })
         })
         .catch((err)=> {
