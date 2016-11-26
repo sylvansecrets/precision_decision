@@ -10,15 +10,14 @@ $(function() {
   minusSigns();
 
   $(".plusOptions").click(function () {
-    var input = $('.optionsTextarea').val();
-    var spanClass = $('#container').find('.selectOptions');
-    $(spanClass).append(`<textarea name="styled-textarea" class="optionsTextarea"></textarea>`);
+    var optionsList = $('#container').find('.selectOptions');
+    $(optionsList).append(`<li><textarea name="styled-textarea" class="optionsTextarea"></textarea></li>`);
     minusSigns();
   })
 
   $(".minusOptions").click(function () {
-    var spanClass2 = $('.selectOptions').find('.optionsTextarea');
-    spanClass2.last().remove();
+    var optionsList = $('.selectOptions').find('.optionsTextarea');
+    optionsList.last().remove();
     minusSigns();
   });
 
@@ -32,15 +31,14 @@ $(function() {
   minusSigns2();
 
   $(".plusEmails").click(function () {
-    var input = $('.emailTextarea').val();
-    var spanClass3 = $('#container').find('.selectRecipients');
-    $(spanClass3).append(`<textarea name="styled-textarea" class="emailTextarea"></textarea>`);
+    var emailsList = $('#container').find('.selectRecipients');
+    $(emailsList).append(`<li><textarea name="styled-textarea" class="emailTextarea"></textarea></li>`);
     minusSigns2();
   })
 
   $(".minusEmails").click(function () {
-    var spanClass4 = $('.selectRecipients').find('.emailTextarea');
-    spanClass4.last().remove();
+    var emailsList = $('.selectRecipients').find('.emailTextarea');
+    emailsList.last().remove();
     minusSigns2();
   });
 
