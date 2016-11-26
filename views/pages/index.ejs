@@ -4,17 +4,17 @@
   <body>
     <% include ../partials/header %>
     <div id="container">
-      <form action="" method="POST">
+      <form action="/polls/create_new" method="POST">
 
         <h2>What's Your Burning Question?</h2>
         <span class="selectQuestion">
-          <textarea name="styled-textarea" input="text" class="questionTextarea" placeholder="What movie should we see?"></textarea>
+          <textarea name="question" input="text" class="questionTextarea" placeholder="What movie should we see?"></textarea>
         </span>
 
         <h2>What Are The Options?</h2>
         <ul id="optionsId" class="selectOptions">
           <li>
-            <textarea name="styled-textarea" class="optionsTextarea" placeholder="Bad Santa 2"></textarea>
+            <textarea name="options" data-input="" class="optionsTextarea" placeholder="Bad Santa 2"></textarea>
           </li>
         </ul>
         <img class="plusOptions" src="img/plusOptions.png">
@@ -23,17 +23,18 @@
         <h2>Who Are You Asking?</h2>
         <ul id="emailsId" class="selectRecipients">
           <li>
-            <textarea name="styled-textarea" class="emailTextarea" placeholder="JohnnyHockey@gmail.com"></textarea>
+            <textarea name="emails" class="emailTextarea" placeholder="JohnnyHockey@gmail.com"></textarea>
           </li>
         </ul>
         <img class="plusEmails" src="img/plusEmails.png">
         <img class="minusEmails" src="img/minusEmails.png">
 
-        <a href="http://www.google.com">
-          <span class="previewButton">Preview Poll</span>
-        </a>
+        <label for="adminEmail">Your email goes here</label>
+        <input type="text" id="adminEmail" name="adminEmail" class="emailTextarea">
+        <input type="submit" class="previewButton" value="Preview Poll">
       </form>
     </div>
     <% include ../partials/footer %>
   </body>
 </html>
+

@@ -30,16 +30,17 @@
       </section>
 
 
+      <!-- Loads the Voting Partial (conditional) -->
+      <% if(!isSent[0].isSent) {%>
+        <%include ../partials/voting%>
+      <%}%>
+
 
       <!-- Loads the Limbo Partial (conditional) -->
       <% if(!isSent[0].isSent) {%>
         <%include ../partials/limbo%>
       <%}%>
 
-      <!-- Loads the Voting Partial (conditional) -->
-      <% if(isSent[0].isSent) {%>
-        <%include ../partials/voting%>
-      <%}%>
 
       <!--
         ToDo
