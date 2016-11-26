@@ -37,5 +37,25 @@ function retreiveRanks(poll_id){
     )
 }
 
-const addRank = require('./db_add_rank').addRank
-readRanks('1912uf0h9z31a9f6');
+// const addRank = require('./db_add_rank').addRank
+// readRanks('1912uf0h9z31a9f6');
+
+function cleanRanks(rank_obj){
+  let cleaned_obj = {};
+  for (vote of rank_obj){
+    let uid = vote.unique_string;
+    let option = vote.option_id;
+    let rank = vote.rank;
+    if (cleaned_obj[uid]){
+      cleaned_obj[uid][option] = rank
+    } else {
+      cleaned_obj[uid] = {option: rank}
+    }
+  }
+  return cleaned_obj;
+}
+
+module.exports = {
+  cleanRanks: cleanRanks,
+  readRanks: readRanks
+}
