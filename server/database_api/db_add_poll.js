@@ -23,7 +23,7 @@ const Promise = require('bluebird');
 //   ]
 // }
 
-// writePoll(input_obj).then((result) => console.log('These are the users added: ', result));
+// writePoll(input_obj).then((result) => console.log('The new administrator is', result));
 
 
 // input object needs to contain:
@@ -55,10 +55,10 @@ function writePoll(input_obj){
         let user_promise = [];
 
         emails['others'].forEach((email) => {
-          user_promise.push(injectUser(email, false, poll_id, t, unique_strings))
+          user_promise.push(injectUser(email, false, poll_id, t, []))
         })
 
-        user_promise.push(injectUser(emails['admin'], true, poll_id, t, []))
+        user_promise.push(injectUser(emails['admin'], true, poll_id, t, unique_strings))
 
         let option_promise = [];
 
