@@ -36,8 +36,8 @@ app.get('/', (req, res) => {
 // });
 
 
-  // Sends initial poll data to db and loads preview
-app.post('/polls/:id/preview', (req, res) => {
+// Creates new poll
+app.post('/polls/create_new', (req, res) => {
   // Adds poll to database, leaving is_sent = false
 
 
@@ -53,7 +53,7 @@ app.post('/polls/:id/preview', (req, res) => {
 
 
 // +------------------------------------------+
-// |     Gets preview of poll with footer     |
+// |     Gets Poll.ejs and sends nec. data    |
 // +------------------------------------------+
 app.get('/polls/:id', (req, res) => {
 
