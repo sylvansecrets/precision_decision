@@ -16,7 +16,7 @@ const knex        = require('knex')(config);
 
 app.use(express.static("public"));
 //app.use(express.static("views/partials"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
 
@@ -39,10 +39,23 @@ app.get('/', (req, res) => {
 // Creates new poll
 app.post('/polls/create_new', (req, res) => {
   // Adds poll to database, leaving is_sent = false
+  const question = req.body.question;
+  const adminEmail = req.body.adminEmail;
+  const emails = req.body.emails;
+  const options = req.body.options;
+  console.log('this is the body: ' , req.body );
+  console.log('this is the question: ', question);
+  console.log('this is the adminEmail: ', adminEmail);
+  console.log('this is the emails: ', emails);
+  console.log('this is the options: ', options);
 
 
+
+
+  const pollId = 'w97z4q0xitigfcng';
   // Creates all necessary unique IDs
   // redirects to get /polls/id/preview
+  res.redirect(`/polls/${pollId}`);
 });
 
 
@@ -113,7 +126,7 @@ app.get('/polls/:id', (req, res) => {
                 ])
         })
         .then((resolutions) => {
-          console.log('this is res', resolutions);
+          // console.log('this is res', resolutions);
           res.render('pages/poll', {
             options: resolutions[0],
             emails: resolutions[1],
@@ -198,4 +211,15 @@ app.post('/polls/:id/submit', (req,res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 })
+
+
+
+
+
+
+
+
+
+
+
 

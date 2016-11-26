@@ -11,7 +11,7 @@ $(function() {
 
   $(".plusOptions").click(function () {
     var optionsList = $('#container').find('.selectOptions');
-    $(optionsList).append(`<li><textarea name="styled-textarea" class="optionsTextarea"></textarea></li>`);
+    $(optionsList).append(`<li><textarea name="options" class="optionsTextarea"></textarea></li>`);
     minusSigns();
   })
 
@@ -32,7 +32,7 @@ $(function() {
 
   $(".plusEmails").click(function () {
     var emailsList = $('#container').find('.selectRecipients');
-    $(emailsList).append(`<li><textarea name="styled-textarea" class="emailTextarea"></textarea></li>`);
+    $(emailsList).append(`<li><textarea name="emails" class="emailTextarea"></textarea></li>`);
     minusSigns2();
   })
 
