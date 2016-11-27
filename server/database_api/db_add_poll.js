@@ -8,22 +8,22 @@ const Promise = require('bluebird');
 
 
 // //input_obj example
-const input_obj = {
-  send: true,
-  timestamp: '2011-02-21',
-  question: 'Which butter do you prefer?',
-  expire: '2017-01-01',
-  emails: {
-    admin: 'admin@ads.com',
-    others: ['a@a', 'b@b', 'c@c']
-  },
-  options: [
-    {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
-    {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
-  ]
-}
-
-writePoll(input_obj);
+// const input_obj = {
+//   send: true,
+//   timestamp: '2011-02-21',
+//   question: 'Which butter do you prefer?',
+//   expire: '2017-01-01',
+//   emails: {
+//     admin: 'admin@ads.com',
+//     others: ['a@a', 'b@b', 'c@c']
+//   },
+//   options: [
+//     {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
+//     {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
+//   ]
+// }
+//
+// writePoll(input_obj);
 
 
 // input object needs to contain:

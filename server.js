@@ -12,6 +12,7 @@ const PORT                = process.env.PORT || 8080;
 const config              = require('./config');
 const knex                = require('knex')(config);
 const createInputObject   = require('./public/scripts/create-input-object');
+const writeToPoll         = require('./server/database_api/db_add_poll');
 // const commitPollToDb = require('./server/database_api/db_add_poll');
 // const commitEditsToDb = require('./server/database_api/db_edit_poll');
 
@@ -39,13 +40,9 @@ app.get('/', (req, res) => {
 
 // Creates new poll
 app.post('/polls/create_new', (req, res) => {
-  console.log('this is the new object: ', createInputObject(req.body));
   const input_object = createInputObject(req.body);
-  writePoll(input_object);
-  const pollId = 'w97z4q0xitigfcng';
-  // Creates all necessary unique IDs
-  // redirects to get /polls/id/preview
-  res.redirect(`/polls/${pollId}`);
+  // writeToPoll.writePoll(input_object);
+
 });
 
 
@@ -84,7 +81,10 @@ app.get('/polls/:id', (req, res) => {
     return knex.select('email')
         .from('polls')
         .join('users', 'polls.id', '=', 'users.poll_id')
-        .where('polls.id', pollId)
+        .where({
+          'polls.id': pollId,
+          'users.admin': false
+        })
         .orderBy('email');
   }
 
@@ -100,6 +100,19 @@ app.get('/polls/:id', (req, res) => {
                .where('id', pollId);
   }
 
+  function getAdminEmail(pollId) {
+    return knex.select('email')
+        .from('polls')
+        .join('users', 'polls.id', '=', 'users.poll_id')
+        .where({
+          'polls.id': pollId,
+          'users.admin': true
+        })
+        .orderBy('email');
+  }
+
+
+
   function getDataForPollAndRender(uniqueId) {
     knex.select('poll_id')
         .from('users')
@@ -112,7 +125,8 @@ app.get('/polls/:id', (req, res) => {
                       getIsSentBool(pollId),
                       getAdminBool(uniqueId),
                       getExpiry(pollId),
-                      getQuestion(pollId)
+                      getQuestion(pollId),
+                      getAdminEmail(pollId)
                 ])
         })
         .then((resolutions) => {
@@ -123,7 +137,8 @@ app.get('/polls/:id', (req, res) => {
             isSent: resolutions[2],
             admin: resolutions[3],
             expires: resolutions[4],
-            question: resolutions[5]
+            question: resolutions[5],
+            adminEmail: resolutions[6]
             // if rank is null
           })
         })

@@ -1,4 +1,10 @@
 <section id="limboPartial">
+  <ul>
+    <%for(let i = 0; i < emails.length; i++) {%>
+      <li><%= emails[i].email%></li>
+    <%}%>
+  </ul>
+
   <h5>back to edit</h5>
   <h5>out to the universe</h5>
 </section>
