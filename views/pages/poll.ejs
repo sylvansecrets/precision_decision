@@ -11,29 +11,22 @@
     <section id="pollWrap">
 
       <!-- Loads Admin Partial (conditional) -->
-      <%if (!isSent[0].isSent) {%>
-        <%if(admin[0].admin) {%>
-          <% include ../partials/admin %>
-        <%}%>
-      <%}%>
+
+      <% include ../partials/admin %>
+
       <span>this is admin: <%= admin[0].admin %></span>
       <span>this is isSent: <%= isSent[0].isSent%></span>
       <h3 id="pollQuestion"><%= question[0].question %></h3>
       <h4>Poll expires: <%= expires[0].expire %></h4>
-      <!-- Poll List -->
-      <section id="pollListWrap">
-        <ul id="pollList">
-          <%for (let option of options) { %>
-            <li class="pollListItem"><%= option.question_text %></li>
-          <%}%>
-        </ul>
-      </section>
+
+      <% include ../partials/success %>
 
 
       <!-- Loads the Voting Partial (conditional) -->
-      <% if(!isSent[0].isSent) {%>
-        <%include ../partials/voting%>
-      <%}%>
+      <form class="" action="" method="post">
+        <% include ../partials/voting %>
+      </form>
+
 
 
       <!-- Loads the Limbo Partial (conditional) -->

@@ -1,10 +1,17 @@
-<section id="limboPartial">
-  <ul>
-    <%for(let i = 0; i < emails.length; i++) {%>
-      <li><%= emails[i].email%></li>
-    <%}%>
-  </ul>
+<% if(!isSent[0].isSent) {%>
+  <section id="limboPartial">
+    <ul>
+      <%for(let i = 0; i < emails.length; i++) {%>
+        <li><%= emails[i].email%></li>
+      <%}%>
+    </ul>
 
-  <h5>back to edit</h5>
-  <h5>out to the universe</h5>
-</section>
+    <form action="/polls/<%=uniqueId%>/edit" method="post">
+      <input type="submit" value="edit poll">
+    </form>
+    <form action="/polls/<%=uniqueId%>/send" method="post">
+      <input type="submit" value="out into the universe">
+    </form>
+
+  </section>
+<%}%>

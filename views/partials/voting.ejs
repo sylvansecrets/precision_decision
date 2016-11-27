@@ -1,7 +1,18 @@
-<section id="votingPartial">
-  <% if(null) {%>
-    <input type="submit" value="Update">
-  <% } else { %>
-    <input type="submit" value="Vote">
-  <% } %>
-</section>
+<% if(isSent[0].isSent) {%>
+  <form action="/polls/uniqueId/vote" method="post">
+    <section id="pollListWrap">
+      <ul id="pollList">
+        <%for (let option of options) { %>
+          <li class="pollListItem"><%= option.question_text %></li>
+        <%}%>
+      </ul>
+    </section>
+    <section id="votingPartial">
+      <% if(null) {%>
+        <input type="submit" value="Update">
+      <% } else { %>
+        <input type="submit" value="Vote">
+      <% } %>
+    </section>
+  </form>
+<%}%>

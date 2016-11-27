@@ -1,18 +1,22 @@
-<section id="adminPartial">
-  <h1><%=adminEmail[0].email%></h1>
+<%if (isSent[0].isSent) {%>
+  <%if(admin[0].admin) {%>
+    <section id="adminPartial">
+      <h1><%=adminEmail[0].email%></h1>
+        <form action="/polls/<%= uniqueId%>/close_poll">
+          <button id="closePollBtn">Close Poll</button>
+          <%# <button id="addEmailBtn">Send to more voters</button>
+            <input type="text" name="email" placeholder="email">%>
+        </form>
 
-  <button id="closePollBtn">Close Poll</button>
-  <%# <button id="addEmailBtn">Send to more voters</button>
-    <input type="text" name="email" placeholder="email">%>
-
-
-  <!--
-    ToDo
-    : create view of data (autorefresh?)
-    : admin options
-      : send-to-more-people field
-      : close poll override button
-      : current rankings
-      : voted/voters
-   -->
-</section>
+       <!--
+      //   ToDo
+      //   : create view of data (autorefresh?)
+      //   : admin options
+      //     : send-to-more-people field
+      //     : close poll override button
+      //     : current rankings
+      //     : voted/voters
+      //  -->
+    </section>
+  <%}%>
+<%}%>
