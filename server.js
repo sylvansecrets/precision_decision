@@ -41,8 +41,9 @@ app.get('/', (req, res) => {
 // Creates new poll
 app.post('/polls/create_new', (req, res) => {
   const input_object = createInputObject(req.body);
-  // writeToPoll.writePoll(input_object);
-
+  writeToPoll.writePoll(input_object).then((unique_string) => {
+    res.redirect(`/polls/${unique_string}`);
+  });
 });
 
 
