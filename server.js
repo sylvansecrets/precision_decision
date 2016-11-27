@@ -12,7 +12,9 @@ const PORT                = process.env.PORT || 8080;
 const config              = require('./config');
 const knex                = require('knex')(config);
 const createInputObject   = require('./public/scripts/create-input-object');
+const mailGun             = require('./public/scripts/mailGun');
 const writeToPoll         = require('./server/database_api/db_add_poll');
+
 // const commitPollToDb = require('./server/database_api/db_add_poll');
 // const commitEditsToDb = require('./server/database_api/db_edit_poll');
 
