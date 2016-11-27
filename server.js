@@ -29,6 +29,9 @@ app.set('view engine', 'ejs');
 
   // Landing Page // Create Poll Page
 app.get('/', (req, res) => {
+  email = 'codywj777@gmail.com'
+  unique_string = 'abcdefgh'
+  mailGun(email, unique_string);
   res.render('pages/index');
 });
 
@@ -204,7 +207,7 @@ app.get('/polls/:id/edit', (req, res) => {
 // |        Commits Edits to Database         |
 // +------------------------------------------+
 app.post('/polls/:id/edit', (req, res) => {
-  
+
 });
 
 
