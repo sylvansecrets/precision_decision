@@ -23,7 +23,12 @@ const Promise = require('bluebird');
 //   ]
 // }
 
+
 // writePoll(input_obj).then((result) => console.log('The new administrator is', result));
+
+//
+// writePoll(input_obj);
+
 
 
 // input object needs to contain:
