@@ -8,22 +8,27 @@ const Promise = require('bluebird');
 
 
 // //input_obj example
-const input_obj = {
-  send: true,
-  timestamp: '2011-02-21',
-  question: 'Which butter do you prefer?',
-  expire: '2017-01-01',
-  emails: {
-    admin: 'admin@ads.com',
-    others: ['a@a', 'b@b', 'c@c']
-  },
-  options: [
-    {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
-    {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
-  ]
-}
+// const input_obj = {
+//   send: true,
+//   timestamp: '2011-02-21',
+//   question: 'Which butter do you prefer?',
+//   expire: '2017-01-01',
+//   emails: {
+//     admin: 'admin@ads.com',
+//     others: ['a@a', 'b@b', 'c@c']
+//   },
+//   options: [
+//     {question_text: 'butter', question_embed:"http://www.webexhibits.org/butter/i/full/iStock_000006937653Small.jpg"},
+//     {question_text: 'clarified butter', question_embed:"http://i.imgur.com/JXqLYYW.jpg"}
+//   ]
+// }
 
-writePoll(input_obj);
+
+// writePoll(input_obj).then((result) => console.log('The new administrator is', result));
+
+//
+// writePoll(input_obj);
+
 
 
 // input object needs to contain:
@@ -44,6 +49,7 @@ function writePoll(input_obj){
   const isSent = input_obj['send'];
   const expire = input_obj['expire'];
   const question = input_obj['question'];
+  let unique_strings = [];
   return knex.transaction(function(t){
       injectPoll(create_time, isSent, expire, question, t)
       .then(function(poll_id){
@@ -54,10 +60,10 @@ function writePoll(input_obj){
         let user_promise = [];
 
         emails['others'].forEach((email) => {
-          user_promise.push(injectUser(email, false, poll_id, t))
+          user_promise.push(injectUser(email, false, poll_id, t, []))
         })
 
-        user_promise.push(injectUser(emails['admin'], true, poll_id, t))
+        user_promise.push(injectUser(emails['admin'], true, poll_id, t, unique_strings))
 
         let option_promise = [];
 
@@ -75,6 +81,7 @@ function writePoll(input_obj){
   })
   .then(function(){
     console.log("Success, added user");
+    return unique_strings;
     process.exit();
   })
   .catch(function(err){
@@ -96,13 +103,15 @@ function injectPoll(create_time, isSent, expire, question, transact){
         });
 }
 
-function injectUser(email, admin_state, poll_id, transact){
+function injectUser(email, admin_state, poll_id, transact, unique_strings){
+  let rand_string = generateRandomString();
+  unique_strings.push(rand_string)
   return knex('users')
       .transacting(transact)
       .insert({
         poll_id: poll_id,
         email: email,
-        unique_string: generateRandomString(),
+        unique_string: rand_string,
         admin: !!admin_state
       })
   }
