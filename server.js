@@ -38,7 +38,9 @@ app.get('/', (req, res) => {
 // });
 
 
-// Creates new poll
+// +------------------------------------------+
+// |        Creates Poll    |
+// +------------------------------------------+
 app.post('/polls/create_new', (req, res) => {
   const input_object = createInputObject(req.body);
   writeToPoll.writePoll(input_object).then((unique_string) => {
@@ -200,7 +202,7 @@ app.get('/polls/:id/edit', (req, res) => {
 // |        Commits Edits to Database         |
 // +------------------------------------------+
 app.post('/polls/:id/edit', (req, res) => {
-
+  
 });
 
 
