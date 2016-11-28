@@ -309,14 +309,9 @@ app.post('/polls/:id/close_poll', (req, res) => {
   }
 
   getPollId(uniqueId)
-
-      // updates active to TRUE
       .then((resolutions) => {
         return updateActive(resolutions[0].poll_id);
       })
-
-      // THEN we find winner here
-
       .then(() => {
         console.log(uniqueId);
         return readRanks.readRanks(uniqueId);
@@ -329,24 +324,12 @@ app.post('/polls/:id/close_poll', (req, res) => {
         console.log("And the winner is", winner);
         return winner;
       })
-
       .then((option_id) => {
         return knex.select('question_text')
           .from('options')
           .where('id', option_id)
       })
-      // .then((win) => {
-      //   console.log(win)
-      //   winnerText = win.question_text;
-      //   console.log(winnerText)
-      //   return;
-      // })
-
-
-      // then winner needs to make its way down down down
-
       .then((winner) => {
-        // console.log("winner", winnerText)
         knex.select('poll_id')
             .from('users')
             .where('unique_string', uniqueId)
@@ -362,8 +345,6 @@ app.post('/polls/:id/close_poll', (req, res) => {
                 email = voter.email;
                 unique_string = voter.unique_string;
                 const subject = 'Poll Results'
-                // then winner finds its way - as a string - concatenated
-                // into the emailbody
                 mailGun(email, subject, emailBody);
               })
             })

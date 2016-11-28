@@ -16,6 +16,16 @@ ul {
   display: none;
 }
 
+
+/**********************************
+        POLL_CLOSED PARTIAL
+**********************************/
+
+  #pollClosed {
+    box-shadow: 0 -2px 2px #999;
+    padding: 100px 100px;
+  }
+
 /**********************************
         SUCCESS PARTIAL
 **********************************/
@@ -131,6 +141,10 @@ ul {
 /**********************************
         MAIN CSS
 **********************************/
+
+footer {
+  padding-left: 20px;
+}
 
 .pollListItem {
   background-color: rgba(255, 255, 255, 0.8);
