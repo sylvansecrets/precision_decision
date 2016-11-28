@@ -16,8 +16,9 @@ const mailGun             = require('./public/scripts/mailGun');
 const writeToPoll         = require('./server/database_api/db_add_poll');
 const saveEditedPoll      = require('./server/database_api/db_edit_poll');
 const addRank             = require('./server/database_api/db_add_rank');
+const readRanks           = require('./server/database_api/db_read_ranks');
 
-// const getPollDataAndRender= require('./public/scripts/get-poll-data-and-render');
+
 // const commitPollToDb = require('./server/database_api/db_add_poll');
 // const commitEditsToDb = require('./server/database_api/db_edit_poll');
 
@@ -109,7 +110,7 @@ app.get('/polls/:id', (req, res) => {
   function getVotedOrNull(uniqueId) {
     return knex('rankings')
               .count('rank')
-              .where('unique_string', uniqueId)
+              .where('unique_string', uniqueId);
   }
 
   function getPollDataAndRender(uniqueId, path) {
@@ -130,7 +131,7 @@ app.get('/polls/:id', (req, res) => {
                 ])
         })
         .then((resolutions) => {
-          // console.log('this is resolutions[7]', resolutions[7]);
+          console.log('this is voted', resolutions[7]);
           res.render('pages/poll', {
             options: resolutions[0],
             emails: resolutions[1],
@@ -332,9 +333,11 @@ app.post('/polls/:id/vote', (req,res) => {
   const numOfOptions = req.body.options.length;
 
   function getOptionId(pollId, optionText) {
-    return knex.select('id')
+        return knex.select('id')
                .from('options')
-               .where('question_text', optionText)
+               .where({ question_text: optionText,
+                        poll_id: pollId
+                     })
   }
 
   knex.select('poll_id')
@@ -342,27 +345,44 @@ app.post('/polls/:id/vote', (req,res) => {
       .where('unique_string', uniqueId)
       .then((resolutions) => {
         const pollId = resolutions[0].poll_id;
+        console.log('this is voteArray ', voteArray );
         for(let i = 0; i < numOfOptions; i++) {
-          getOptionId(pollId, voteArray[i])
-            .then((resolutions) => {
-              let id = resolutions[0].id;
-              const voteObj = {};
-              voteObj[id] = i;
-              addRank.addRank(uniqueId, voteObj);
-            })
-            .catch((error) => {
-              console.log(error);
-            })
+          return getOptionId(pollId, voteArray[i])
+          .then((resolutions) => {
+            let id = resolutions[0].id;
+            const voteObj = {};
+            voteObj[id] = i;
+            addRank.addRank(uniqueId, voteObj)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         }
-        return;
       })
       .then(() => {
-        console.log(uniqueId);
+        console.log('these are the final resols: ');
         res.redirect(`/polls/${uniqueId}`);
       })
       .catch((error) => {
           console.log(error);
       })
+});
+
+// +------------------------------------------+
+// |             CLOSE POLL                   |
+// +------------------------------------------+
+app.post('/polls/:id/close_poll', (req, res) => {
+  const uniqueId = req.params.id;
+
+    readRanks.readRanks(uniqueId)
+             .then((resolutions) => {
+               console.log('resolutions: ', resolutions);
+             })
+             .catch((error) => {
+               console.log(error);
+             })
+
+  res.redirect(`/polls/${uniqueId}`);
 });
 
 

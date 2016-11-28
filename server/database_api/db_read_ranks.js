@@ -23,7 +23,7 @@ function readRanks(unique_string){
   })
   .then((results) => {
     console.log(results['rows']);
-    process.exit();
+    // process.exit();
   })
   .catch((err) => {
     console.log(err);

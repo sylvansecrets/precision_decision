@@ -7,10 +7,8 @@ conditions: isSent = true,
   <%if(admin[0].admin) {%>
     <section id="adminPartial">
       <h1><%=adminEmail[0].email%></h1>
-        <form action="/polls/<%= uniqueId%>/close_poll">
-          <button id="closePollBtn">Close Poll</button>
-          <%# <button id="addEmailBtn">Send to more voters</button>
-            <input type="text" name="email" placeholder="email">%>
+        <form action="/polls/<%= uniqueId %>/close_poll" method="post">
+          <input type="submit" value="close poll">
         </form>
     </section>
   <%}%>
