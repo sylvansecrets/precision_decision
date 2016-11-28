@@ -14,18 +14,17 @@
 
       <% include ../partials/admin %>
 
-      <span>this is admin: <%= admin[0].admin %></span>
-      <span>this is isSent: <%= isSent[0].isSent%></span>
-      <h3 id="pollQuestion"><%= question[0].question %></h3>
-      <h4>Poll expires: <%= expires[0].expire %></h4>
+
+
+
+
 
       <% include ../partials/success %>
 
+      <h1>this is voted <%=voted[0].count%></h1>
 
       <!-- Loads the Voting Partial (conditional) -->
-      <form class="" action="" method="post">
         <% include ../partials/voting %>
-      </form>
 
 
 

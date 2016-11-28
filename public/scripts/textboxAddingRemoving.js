@@ -11,7 +11,7 @@ $(function() {
 
   $(".plusOptions").click(function () {
     var optionsList = $('#container').find('.selectOptions');
-    $(optionsList).append(`<li><textarea name="options" class="optionsTextarea"></textarea><input type="text" name="options_embed" class="hidden"></li>`);
+    $(optionsList).append(`<li><textarea name="options" class="optionsTextarea"></textarea></li>`);
     minusSigns();
   })
 
@@ -43,4 +43,3 @@ $(function() {
   });
 
 });
-

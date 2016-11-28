@@ -12,7 +12,7 @@ module.exports = function createInputObject(bodyObject) {
     }
 
     //INPUT OBJECT FILLER
-    
+
     // QUEST
     inputObject.question = bodyObject.question;
 
@@ -39,7 +39,7 @@ module.exports = function createInputObject(bodyObject) {
       for(let i = 0; i < bodyObject.options.length; i++) {
         inputObject.options.push( {
           question_text: bodyObject.options[i],
-          question_embed: bodyObject.options_embed[i]
+          // question_embed: bodyObject.options_embed[i]
         });
       }
     }
