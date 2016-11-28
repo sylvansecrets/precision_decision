@@ -1,17 +1,18 @@
+<!--
+FIRST state after preview button clicked
+condition: isSent = null
+ -->
 <% if(!isSent[0].isSent) {%>
   <section id="limboPartial">
+    <h4>Poll recipients:</h4>
     <ul>
       <%for(let i = 0; i < emails.length; i++) {%>
         <li><%= emails[i].email%></li>
       <%}%>
     </ul>
 
-    <form action="/polls/<%=uniqueId%>/edit" method="get">
-      <input type="submit" value="edit poll">
-    </form>
     <form action="/polls/<%=uniqueId%>/send" method="post">
       <input type="submit" value="out into the universe">
     </form>
-
   </section>
 <%}%>

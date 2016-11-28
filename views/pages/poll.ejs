@@ -2,50 +2,15 @@
 <html>
   <% include ../partials/pollHead %>
   <body>
-    <!-- Header Partial -->
     <% include ../partials/header %>
 
+    <% include ../partials/limbo %>
 
+    <% include ../partials/admin %>
 
-    <!-- Main Section where Poll Options Exist -->
-    <section id="pollWrap">
+    <% include ../partials/voting %>
 
-      <!-- Loads Admin Partial (conditional) -->
-
-      <% include ../partials/admin %>
-
-
-
-
-
-
-      <% include ../partials/success %>
-
-      <h1>this is voted <%=voted[0].count%></h1>
-
-      <!-- Loads the Voting Partial (conditional) -->
-        <% include ../partials/voting %>
-
-
-
-      <!-- Loads the Limbo Partial (conditional) -->
-      <% if(!isSent[0].isSent) {%>
-        <%include ../partials/limbo%>
-      <%}%>
-
-
-      <!--
-        ToDo
-        : conditions for vote/update
-          : if isSent[0]
-            : if voted
-        : countdown til close (jQuery UI)
-          : end date - current time
-
-       -->
-
-    </section>
-
+    <% include ../partials/success %>
 
     <% include ../partials/footer %>
   </body>

@@ -1,4 +1,9 @@
-<%if (isSent[0].isSent) {%>
+<!--
+ADMIN STATE partial
+conditions: isSent = true,
+            admin = true
+-->
+<%if(isSent[0].isSent) {%>
   <%if(admin[0].admin) {%>
     <section id="adminPartial">
       <h1><%=adminEmail[0].email%></h1>

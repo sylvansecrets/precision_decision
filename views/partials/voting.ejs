@@ -1,3 +1,8 @@
+<!--
+SECOND state after poll is released into the universe
+condition: votes === 0;
+ -->
+
 <% if(voted[0].count === '0') {%>
   <form action="/polls/<%=uniqueId%>/vote" method="post">
     <h3 id="pollQuestion"><%= question[0].question %></h3>
@@ -11,6 +16,8 @@
         <%}%>
       </ul>
     </section>
-    <input type="submit" value="Vote">
+    <%if(isSent[0].isSent) {%>
+      <input type="submit" value="Vote">
+    <%}%>
   </form>
 <% } %>

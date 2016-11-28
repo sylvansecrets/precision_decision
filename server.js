@@ -27,21 +27,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
 
-//                Routes
-// ####################################
-
-  // Landing Page // Create Poll Page
+// +------------------------------------------+
+// |               GET INDEX                  |
+// +------------------------------------------+
 app.get('/', (req, res) => {
   res.render('pages/index');
 });
-
-
-  // Create Poll Page
-// app.get('/polls/new', (req, res) => {
-//   //always the same, empty skeleton
-//   res.render('pages/new');
-// });
-
 
 
 // +------------------------------------------+
@@ -55,13 +46,13 @@ app.post('/polls/create_new', (req, res) => {
 });
 
 
-
 // +------------------------------------------+
 // |      GET to POLL with UNIQUE_STRING      |
 // +------------------------------------------+
 app.get('/polls/:id', (req, res) => {
   const uniqueId = req.params.id
   const path = 'pages/poll'
+
   function getAdminBool(uniqueId) {
     return knex.select('admin')
         .from('users')
@@ -163,7 +154,6 @@ app.get('/polls/:id', (req, res) => {
   });
 
 
-
 // +------------------------------------------+
 // |        SAVES EDITED POLL to DB           |
 // +------------------------------------------+
@@ -173,7 +163,6 @@ app.post('/polls/:id/edit', (req, res) => {
     res.redirect(`/polls/${unique_string}`);
   });
 });
-
 
 
 // +------------------------------------------+
@@ -231,7 +220,6 @@ app.post('/polls/:id/send', (req, res) => {
       })
       res.redirect(`/polls/${uniqueId}`)
 })
-
 
 
 // +------------------------------------------+
@@ -365,19 +353,17 @@ app.post('/polls/:id/vote', (req,res) => {
             .catch((error) => {
               console.log(error);
             })
+          return;
         }
       })
       .then(() => {
-        res.redirect(`/polls/${req.params.id}`);
+        console.log(uniqueId);
+        res.redirect(`/polls/${uniqueId}`);
       })
       .catch((error) => {
           console.log(error);
       })
-
 });
-
-
-
 
 
 // ####################################
