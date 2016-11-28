@@ -161,3 +161,7 @@ a {
   text-decoration: none;
   display:block;
 }
+
+.warning {
+  color: hsla(353, 100%, 50%, 1);
+}
