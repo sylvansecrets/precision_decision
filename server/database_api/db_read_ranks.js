@@ -17,13 +17,11 @@ function readRanks(unique_string){
       throw new Error ('not a user')
     } else {
       poll_id = poll_id['poll_id']
-      // console.log('poll', poll_id)
       return retreiveRanks(poll_id)
     }
   })
   .then((results) => {
-    // console.log(results['rows']);
-    // process.exit();
+    return results.rows;
   })
   .catch((err) => {
     console.log(err);
@@ -49,7 +47,8 @@ function cleanRanks(rank_obj){
     if (cleaned_obj[uid]){
       cleaned_obj[uid][option] = rank
     } else {
-      cleaned_obj[uid] = {option: rank}
+      cleaned_obj[uid] = {};
+      cleaned_obj[uid][option] = rank;
     }
   }
   return cleaned_obj;
