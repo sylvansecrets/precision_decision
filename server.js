@@ -131,7 +131,6 @@ app.get('/polls/:id', (req, res) => {
                 ])
         })
         .then((resolutions) => {
-          console.log('this is voted', resolutions[7]);
           res.render('pages/poll', {
             options: resolutions[0],
             emails: resolutions[1],
@@ -345,7 +344,6 @@ app.post('/polls/:id/vote', (req,res) => {
       .where('unique_string', uniqueId)
       .then((resolutions) => {
         const pollId = resolutions[0].poll_id;
-        console.log('this is voteArray ', voteArray );
         for(let i = 0; i < numOfOptions; i++) {
           return getOptionId(pollId, voteArray[i])
           .then((resolutions) => {
@@ -360,7 +358,6 @@ app.post('/polls/:id/vote', (req,res) => {
         }
       })
       .then(() => {
-        console.log('these are the final resols: ');
         res.redirect(`/polls/${uniqueId}`);
       })
       .catch((error) => {
