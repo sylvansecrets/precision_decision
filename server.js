@@ -17,6 +17,7 @@ const writeToPoll         = require('./server/database_api/db_add_poll');
 const saveEditedPoll      = require('./server/database_api/db_edit_poll');
 const addRank             = require('./server/database_api/db_add_rank');
 const readRanks           = require('./server/database_api/db_read_ranks');
+const runoff              = require('./server/database_api/db_runoff');
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -276,6 +277,7 @@ app.post('/polls/:id/vote', (req,res) => {
 });
 
 
+// ############################################
 // +------------------------------------------+
 // |             CLOSE POLL                   |
 // +------------------------------------------+
@@ -308,6 +310,18 @@ app.post('/polls/:id/close_poll', (req, res) => {
   getPollId(uniqueId)
       .then((resolutions) => {
         return updateActive(resolutions[0].poll_id);
+      })
+      .then(() => {
+        return readRanks(uniqueId);
+      })
+      .then((ranks_obj) => {
+        return cleanRanks(ranks_obj);
+      })
+      .then((clean_obj) => {
+        return runoff(clean_obj);
+      })
+      .then((winner) => {
+        console.log("And the winner is", winner);
       })
       .then(() => {
         knex.select('poll_id')
