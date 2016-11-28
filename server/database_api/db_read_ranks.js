@@ -17,12 +17,12 @@ function readRanks(unique_string){
       throw new Error ('not a user')
     } else {
       poll_id = poll_id['poll_id']
-      console.log('poll', poll_id)
+      // console.log('poll', poll_id)
       return retreiveRanks(poll_id)
     }
   })
   .then((results) => {
-    console.log(results['rows']);
+    // console.log(results['rows']);
     // process.exit();
   })
   .catch((err) => {

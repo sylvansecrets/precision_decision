@@ -3,7 +3,7 @@ SECOND state after poll is released into the universe
 condition: votes === 0;
  -->
 
-<% if(voted[0].count === '0') {%>
+<% if(voted[0].count === '0'  && active[0].active !== true ) {%>
   <form action="/polls/<%=uniqueId%>/vote" method="post">
     <h3 id="pollQuestion"><%= question[0].question %></h3>
     <section id="pollListWrap">

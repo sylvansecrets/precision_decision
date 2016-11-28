@@ -2,7 +2,7 @@
 VOTED partial
 condition: voteCount > 0
 -->
-<% if(voted[0].count !== '0') {%>
+<% if(voted[0].count !== '0' && active[0].active !== true ) {%>
   <section>
     <p>Vote has been submitted! Results will reach your email when poll is closed.</p>
   </section>

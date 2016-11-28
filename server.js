@@ -18,27 +18,30 @@ const saveEditedPoll      = require('./server/database_api/db_edit_poll');
 const addRank             = require('./server/database_api/db_add_rank');
 const readRanks           = require('./server/database_api/db_read_ranks');
 
-
-// const commitPollToDb = require('./server/database_api/db_add_poll');
-// const commitEditsToDb = require('./server/database_api/db_edit_poll');
-
 app.use(express.static("public"));
-//app.use(express.static("views/partials"));
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
 
+//##########################################################
+//##########################################################
+//##########################################################
+
+// ############################################
 // +------------------------------------------+
 // |               GET INDEX                  |
 // +------------------------------------------+
+// ############################################
 app.get('/', (req, res) => {
   res.render('pages/index');
 });
 
 
+// ############################################
 // +------------------------------------------+
 // |             SAVES POLL to DB             |
 // +------------------------------------------+
+// ############################################
 app.post('/polls/create_new', (req, res) => {
   const input_object = createInputObject(req.body);
   writeToPoll.writePoll(input_object).then((unique_string) => {
@@ -47,9 +50,11 @@ app.post('/polls/create_new', (req, res) => {
 });
 
 
+// ############################################
 // +------------------------------------------+
-// |      GET to POLL with UNIQUE_STRING      |
+// |        GET POLL with UNIQUE_STRING       |
 // +------------------------------------------+
+// ############################################
 app.get('/polls/:id', (req, res) => {
   const uniqueId = req.params.id
   const path = 'pages/poll'
@@ -113,6 +118,12 @@ app.get('/polls/:id', (req, res) => {
               .where('unique_string', uniqueId);
   }
 
+  function getActive(pollId) {
+    return knex.select('active')
+              .from('polls')
+              .where('id', pollId);
+  }
+
   function getPollDataAndRender(uniqueId, path) {
     knex.select('poll_id')
         .from('users')
@@ -127,7 +138,8 @@ app.get('/polls/:id', (req, res) => {
                       getExpiry(pollId),
                       getQuestion(pollId),
                       getAdminEmail(pollId),
-                      getVotedOrNull(uniqueId)
+                      getVotedOrNull(uniqueId),
+                      getActive(pollId)
                 ])
         })
         .then((resolutions) => {
@@ -140,6 +152,7 @@ app.get('/polls/:id', (req, res) => {
             question: resolutions[5],
             adminEmail: resolutions[6],
             voted: resolutions[7],
+            active: resolutions[8],
             uniqueId: uniqueId
             // if rank is null
           })
@@ -154,20 +167,11 @@ app.get('/polls/:id', (req, res) => {
   });
 
 
+// ############################################
 // +------------------------------------------+
-// |        SAVES EDITED POLL to DB           |
+// |       SENDS POLL OUT TO UNIVERSE         |
 // +------------------------------------------+
-app.post('/polls/:id/edit', (req, res) => {
-  const input_object = createInputObject(req.body);
-  saveEditedPoll.editPoll(input_object).then((unique_string) => {
-    res.redirect(`/polls/${unique_string}`);
-  });
-});
-
-
-// +------------------------------------------+
-// |       EMAILS POLL/IS_SENT = TRUE;         |
-// +------------------------------------------+
+// ############################################
 app.post('/polls/:id/send', (req, res) => {
   const uniqueId = req.params.id;
   function getEmailsByPollId(pollId) {
@@ -204,16 +208,14 @@ app.post('/polls/:id/send', (req, res) => {
               return getEmailsByPollId(pollId);
             })
             .then((resolutions) => {
-              console.log('these should be emails and unique_string:', resolutions);
               resolutions.forEach(function(voter) {
                 email = voter.email;
                 unique_string = voter.unique_string;
-                mailGun(email, unique_string);
+                const subject = 'Now here\'s a question...'
+                const emailBody = `Follow this link to the poll: http://localhost:8080/polls/${unique_string}`
+                mailGun(email, subject, emailBody);
               })
             })
-      })
-      .then((resolutions) => {
-        console.log('these are the last resolutions: ', resolutions);
       })
       .catch((error) => {
         console.log('there was an error: ', error);
@@ -222,110 +224,11 @@ app.post('/polls/:id/send', (req, res) => {
 })
 
 
-// +------------------------------------------+
-// |            GET to EDIT POLL              |
-// +------------------------------------------+
-app.get('/polls/:id/edit', (req, res) => {
-  const uniqueId = req.params.id
-  const path = 'pages/index'
-
-  function getAdminBool(uniqueId) {
-    return knex.select('admin')
-        .from('users')
-        .where('unique_string', uniqueId);
-  }
-
-  function getIsSentBool(pollId) {
-    return knex.select('isSent')
-        .from('polls')
-        .where('id', pollId);
-  }
-
-  function getOptionsByPollId(pollId) {
-    return knex.select('question_text')
-        .from('polls')
-        .join('options', 'polls.id', '=', 'options.poll_id')
-        .where('polls.id', pollId)
-        .orderBy('options');
-  }
-  function getEmailsByPollId(pollId) {
-    return knex.select('email')
-        .from('polls')
-        .join('users', 'polls.id', '=', 'users.poll_id')
-        .where({
-          'polls.id': pollId,
-          'users.admin': false
-        })
-        .orderBy('email');
-  }
-
-  function getExpiry(pollId) {
-    return knex.select('expire')
-               .from('polls')
-               .where('id', pollId);
-  }
-
-  function getQuestion(pollId) {
-    return knex.select('question')
-               .from('polls')
-               .where('id', pollId);
-  }
-
-  function getAdminEmail(pollId) {
-    return knex.select('email')
-        .from('polls')
-        .join('users', 'polls.id', '=', 'users.poll_id')
-        .where({
-          'polls.id': pollId,
-          'users.admin': true
-        })
-        .orderBy('email');
-  }
-
-
-  function getPollDataAndRender(uniqueId, path) {
-    knex.select('poll_id')
-        .from('users')
-        .where('unique_string', uniqueId)
-        .then((resolutions) => {
-          const pollId = resolutions[0].poll_id;
-          return Promise.all([
-                      getOptionsByPollId(pollId),
-                      getEmailsByPollId(pollId),
-                      getIsSentBool(pollId),
-                      getAdminBool(uniqueId),
-                      getExpiry(pollId),
-                      getQuestion(pollId),
-                      getAdminEmail(pollId)
-                ])
-        })
-        .then((resolutions) => {
-          // console.log('this is res', resolutions);
-          res.render(path, {
-            options: resolutions[0],
-            emails: resolutions[1],
-            isSent: resolutions[2],
-            admin: resolutions[3],
-            expires: resolutions[4],
-            question: resolutions[5],
-            adminEmail: resolutions[6],
-            uniqueId: uniqueId
-            // if rank is null
-          })
-        })
-        .catch((err)=> {
-          console.log("That poll does not exist.", err);
-          res.status(404).send('That poll does not exist.');
-        })
-        return;
-    }
-  getPollDataAndRender(uniqueId, path);
-});
-
-
+// ############################################
 // +------------------------------------------+
 // |            SUBMIT VOTE                   |
 // +------------------------------------------+
+// ############################################
 app.post('/polls/:id/vote', (req,res) => {
   const uniqueId = req.params.id;
   const voteArray = req.body.options;
@@ -365,26 +268,70 @@ app.post('/polls/:id/vote', (req,res) => {
       })
 });
 
+
+// ############################################
 // +------------------------------------------+
 // |             CLOSE POLL                   |
 // +------------------------------------------+
+// ############################################
 app.post('/polls/:id/close_poll', (req, res) => {
   const uniqueId = req.params.id;
 
-    readRanks.readRanks(uniqueId)
-             .then((resolutions) => {
-               console.log('resolutions: ', resolutions);
-             })
-             .catch((error) => {
-               console.log(error);
-             })
+  function getEmailsByPollId(pollId) {
+    return knex.select('email', 'unique_string')
+        .from('polls')
+        .join('users', 'polls.id', '=', 'users.poll_id')
+        .where('polls.id', pollId)
+        .orderBy('email');
+  }
 
-  res.redirect(`/polls/${uniqueId}`);
+  // when active is true -> poll is expired (bass ackward I know)
+  function updateActive(pollId) {
+    return knex('polls')
+      .where('id', pollId)
+      .update({active: true});
+  }
+
+
+  function getPollId(uniqueId) {
+    return knex.select('poll_id')
+               .from('users')
+               .where('unique_string', uniqueId);
+  }
+
+  getPollId(uniqueId)
+      .then((resolutions) => {
+        return updateActive(resolutions[0].poll_id);
+      })
+      .then(() => {
+        knex.select('poll_id')
+            .from('users')
+            .where('unique_string', uniqueId)
+            .then((resolutions) => {
+              const pollId = resolutions[0].poll_id;
+              return getEmailsByPollId(pollId);
+            })
+            .then((resolutions) => {
+              resolutions.forEach(function(voter) {
+                email = voter.email;
+                unique_string = voter.unique_string;
+                const subject = 'Poll Results'
+                const emailBody = `This is the winner:`
+                mailGun(email, subject, emailBody);
+              })
+            })
+      })
+      .then(() => {
+        res.redirect(`/polls/${uniqueId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
 });
 
 
-// ####################################
-// ####################################
+
+
 // ####################################
 // ####################################
 //                Listen
@@ -393,7 +340,5 @@ app.post('/polls/:id/close_poll', (req, res) => {
       console.log(`Listening on port: ${PORT}`);
     })
 
-// ####################################
-// ####################################
 // ####################################
 // ####################################
