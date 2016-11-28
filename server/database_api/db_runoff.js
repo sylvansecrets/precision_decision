@@ -98,6 +98,10 @@ function pruneVote(tally, loser){
 }
 
 // console.log(table([1,2,3,6,8,1,2,2,3,3,3]));
-console.log(processVote(runoff(sample_ranks)));
+// console.log(processVote(runoff(sample_ranks)));
 // console.log(obj_to_arr(sample_ranks['a']));
 // console.log(runoff(sample_ranks));
+
+module.exports = function(rank_obj){
+  return processVote(runoff(rank_obj));
+}
