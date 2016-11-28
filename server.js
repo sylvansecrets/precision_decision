@@ -52,7 +52,7 @@ app.post('/polls/create_new', (req, res) => {
 
 // ############################################
 // +------------------------------------------+
-// |        GET POLL with UNIQUE_STRING       |
+// |      GET POLL.ejs with UNIQUE_STRING     |
 // +------------------------------------------+
 // ############################################
 app.get('/polls/:id', (req, res) => {
@@ -328,8 +328,6 @@ app.post('/polls/:id/close_poll', (req, res) => {
         console.log(error);
       })
 });
-
-
 
 
 // ####################################
