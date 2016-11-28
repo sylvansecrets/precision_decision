@@ -42,7 +42,7 @@ function retreiveRanks(poll_id){
 
 function cleanRanks(rank_obj){
   let cleaned_obj = {};
-  for (vote of rank_obj){
+  for (let vote of rank_obj){
     let uid = vote.unique_string;
     let option = vote.option_id;
     let rank = vote.rank;

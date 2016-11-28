@@ -293,7 +293,7 @@ app.post('/polls/:id/close_poll', (req, res) => {
         .orderBy('email');
   }
 
-  // when active is true -> poll is expired (bass ackward I know)
+
   function updateActive(pollId) {
     return knex('polls')
       .where('id', pollId)
@@ -308,21 +308,25 @@ app.post('/polls/:id/close_poll', (req, res) => {
   }
 
   getPollId(uniqueId)
+
+      // updates active to TRUE
       .then((resolutions) => {
         return updateActive(resolutions[0].poll_id);
       })
+
+      // THEN we find winner here
+
       .then(() => {
-        return readRanks(uniqueId);
+        return readRanks.readRanks(uniqueId);
       })
       .then((ranks_obj) => {
-        return cleanRanks(ranks_obj);
-      })
-      .then((clean_obj) => {
-        return runoff(clean_obj);
-      })
-      .then((winner) => {
+        let clean_obj = readRanks.cleanRanks(ranks_obj);
+        let winner = runoff(clean_obj);
         console.log("And the winner is", winner);
       })
+
+      // then winner needs to make its way down down down
+
       .then(() => {
         knex.select('poll_id')
             .from('users')
@@ -336,6 +340,10 @@ app.post('/polls/:id/close_poll', (req, res) => {
                 email = voter.email;
                 unique_string = voter.unique_string;
                 const subject = 'Poll Results'
+
+                // then winner finds its way - as a string - concatenated
+                // into the emailbody
+
                 const emailBody = `This is the winner:`
                 mailGun(email, subject, emailBody);
               })
