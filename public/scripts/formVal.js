@@ -10,7 +10,6 @@ function isEmail(str){
         ats += 1;
         break;
       case '.':
-        if (ats === 0) sequence = false;
         dots += 1;
         break;
     }
