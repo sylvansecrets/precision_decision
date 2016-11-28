@@ -207,12 +207,14 @@ app.post('/polls/:id/send', (req, res) => {
             .where('unique_string', uniqueId)
             .then((resolutions) => {
               const pollId = resolutions[0].poll_id;
+              console.log("New poll with ID", pollId);
               return getEmailsByPollId(pollId);
             })
             .then((resolutions) => {
               resolutions.forEach(function(voter) {
                 email = voter.email;
                 unique_string = voter.unique_string;
+                console.log("New user for this poll:", unique_string);
                 const subject = 'Now here\'s a question...'
                 const emailBody = `Follow this link to the poll: http://localhost:8080/polls/${unique_string}`
                 mailGun(email, subject, emailBody);
@@ -250,7 +252,6 @@ app.post('/polls/:id/vote', (req,res) => {
         optionId = optionId.id
         const voteObj = {};
         voteObj[optionId] = rank;
-        console.log(unique_string, voteObj);
         addRank.addRank(unique_string, voteObj);
       })
   }
@@ -313,13 +314,11 @@ app.post('/polls/:id/close_poll', (req, res) => {
         return updateActive(resolutions[0].poll_id);
       })
       .then(() => {
-        console.log(uniqueId);
+        // console.log(uniqueId);
         return readRanks.readRanks(uniqueId);
       })
       .then((ranks_obj) => {
-        console.log(ranks_obj);
         let clean_obj = readRanks.cleanRanks(ranks_obj);
-        console.log(clean_obj);
         let winner = runoff(clean_obj);
         console.log("And the winner is", winner);
         return winner;
@@ -340,7 +339,8 @@ app.post('/polls/:id/close_poll', (req, res) => {
 
             .then((resolutions) => {
               const winnerText = resolutions[1][0].question_text;
-              const emailBody = `The winning option is: ${winnerText}`
+              const emailBody = `The winning option is: ${winnerText}`;
+              console.log(emailBody);
               resolutions[0].forEach(function(voter) {
                 email = voter.email;
                 unique_string = voter.unique_string;
