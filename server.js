@@ -18,6 +18,7 @@ const saveEditedPoll      = require('./server/database_api/db_edit_poll');
 const addRank             = require('./server/database_api/db_add_rank');
 const readRanks           = require('./server/database_api/db_read_ranks');
 const runoff              = require('./server/database_api/db_runoff');
+const Promise             = require('bluebird');
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -317,34 +318,52 @@ app.post('/polls/:id/close_poll', (req, res) => {
       // THEN we find winner here
 
       .then(() => {
+        console.log(uniqueId);
         return readRanks.readRanks(uniqueId);
       })
       .then((ranks_obj) => {
+        console.log(ranks_obj);
         let clean_obj = readRanks.cleanRanks(ranks_obj);
+        console.log(clean_obj);
         let winner = runoff(clean_obj);
         console.log("And the winner is", winner);
+        return winner;
       })
+
+      .then((option_id) => {
+        return knex.select('question_text')
+          .from('options')
+          .where('id', option_id)
+      })
+      // .then((win) => {
+      //   console.log(win)
+      //   winnerText = win.question_text;
+      //   console.log(winnerText)
+      //   return;
+      // })
+
 
       // then winner needs to make its way down down down
 
-      .then(() => {
+      .then((winner) => {
+        // console.log("winner", winnerText)
         knex.select('poll_id')
             .from('users')
             .where('unique_string', uniqueId)
             .then((resolutions) => {
               const pollId = resolutions[0].poll_id;
-              return getEmailsByPollId(pollId);
+              return Promise.join(getEmailsByPollId(pollId), winner);
             })
+
             .then((resolutions) => {
-              resolutions.forEach(function(voter) {
+              const winnerText = resolutions[1][0].question_text;
+              const emailBody = `The winning option is: ${winnerText}`
+              resolutions[0].forEach(function(voter) {
                 email = voter.email;
                 unique_string = voter.unique_string;
                 const subject = 'Poll Results'
-
                 // then winner finds its way - as a string - concatenated
                 // into the emailbody
-
-                const emailBody = `This is the winner:`
                 mailGun(email, subject, emailBody);
               })
             })
