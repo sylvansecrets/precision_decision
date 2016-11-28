@@ -19,7 +19,6 @@ function runoff(rank_obj){
   for (voter in rank_obj){
     tally.push(obj_to_arr(rank_obj[voter]))
   }
-  console.log(tally)
   return tally;
 }
 
@@ -85,7 +84,6 @@ function pruneVote(tally, loser){
   let delVote;
   loser.length === 1 ? delVote = loser[0] : delVote = selectRandom(loser);
   for (let i = 0; i < tally.length; i += 1){
-    console.log(tally[i][0], delVote);
     if (tally[i][0] === delVote){
       if (tally[i].length === 1){
         tally.splice(i, 1)
