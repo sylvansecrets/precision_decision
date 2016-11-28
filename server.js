@@ -353,8 +353,8 @@ app.post('/polls/:id/vote', (req,res) => {
             .catch((error) => {
               console.log(error);
             })
-          return;
         }
+        return;
       })
       .then(() => {
         console.log(uniqueId);
