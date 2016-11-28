@@ -180,10 +180,7 @@ app.post('/polls/:id/send', (req, res) => {
     return knex.select('email', 'unique_string')
         .from('polls')
         .join('users', 'polls.id', '=', 'users.poll_id')
-        .where({
-          'polls.id': pollId,
-          'users.admin': false
-        })
+        .where('polls.id', pollId)
         .orderBy('email');
   }
 
