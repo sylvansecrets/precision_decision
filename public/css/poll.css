@@ -1,10 +1,70 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding-top: 64px;
+}
+
+ul {
+  list-style: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/**********************************
+        SUCCESS PARTIAL
+**********************************/
+
+#successPartial {
+  box-shadow: 0 -2px 2px #999;
+  padding: 100px 100px;
+}
+
+/**********************************
+        HEADER LOGO
+**********************************/
+
+  #banner {
+    background-color: #fff;
+    box-shadow: 0 2px 2px #999;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  #banner img {
+    height: 40px;
+  }
+
 /**********************************
         LIMBO PARTIAL
 **********************************/
 
   #limboPartial {
-    background-color: rgba(222,222,222,1);
+    background-color: #fff;
+    padding: 10px 30px 25px 30px;
     width: 100%;
+  }
+
+  #limboPartial h4 {
+    margin-top: 10px;
+
+  }
+
+  #limboPartial li {
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+
+  #limboPartial input {
+    margin-top: 10px;
+    padding: 5px;
   }
 
 /**********************************
@@ -16,30 +76,62 @@
     width: 100%;
   }
 
+  #adminPartial h1 {
+    display: inline;
+    font-size: 1em;
+    line-height: 40px;
+    margin: 0 0 0 30px;
+  }
+
+  #adminPartial input {
+    float: right;
+    margin: 16px;
+    padding: 5px;
+ }
+
 /**********************************
         VOTING PARTIAL
 **********************************/
 
+  .thisOne {
+    color: #888;
+    margin-top: 10px;
+    padding: 10px 10px 0 10px;
+  }
+
   #votingPartial {
-    background-color: rgba(222,222,222,1);
-    width: 100%;
+    box-shadow: 0 -2px 2px #999;
+    padding: 40px 50px;
+  }
+
+  #pollQuestion {
+    border-bottom: 1px solid #000;
+
+    padding-bottom: 5px;
+  }
+
+  #pollListWrap {
+    padding-left: 30px;
+  }
+
+  #voteBut {
+    margin: 20px 0 0 40px;
+    padding: 5px;
+  }
+
+  #pollList li {
+    border: 1px solid #000;
+    display: inline-block;
+    line-height: 25px;
+    font-size: 20px;
+    margin-top: 13px;
+    padding: 5px;
   }
 
 /**********************************
         MAIN CSS
 **********************************/
 
-* {
-  box-sizing: border-box;
-}
-
-ul {
-  list-style: none;
-}
-
-.hidden {
-  display: none;
-}
 .pollListItem {
   background-color: rgba(255, 255, 255, 0.8);
   line-height: 50px;

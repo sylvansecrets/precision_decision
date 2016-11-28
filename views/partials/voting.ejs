@@ -4,20 +4,24 @@ condition: votes === 0;
  -->
 
 <% if(voted[0].count === '0'  && active[0].active !== true ) {%>
-  <form action="/polls/<%=uniqueId%>/vote" method="post">
-    <h3 id="pollQuestion"><%= question[0].question %></h3>
-    <section id="pollListWrap">
-      <ul id="pollList" name="pollList">
-        <%for (let option of options) { %>
-          <li class="pollListItem">
-            <input class="hidden" value="<%= option.question_text %>" name="options">
-            <%= option.question_text %>
-          </li>
-        <%}%>
-      </ul>
-    </section>
-    <%if(isSent[0].isSent) {%>
-      <input type="submit" value="Vote">
-    <%}%>
-  </form>
+  <section id="votingPartial">
+    <form action="/polls/<%=uniqueId%>/vote" method="post">
+      <h3 id="pollQuestion"><%= question[0].question %></h3>
+      <section id="pollListWrap">
+        <h5 class="thisOne">Yeah, this one!</h5>
+        <ul id="pollList" name="pollList">
+          <%for (let option of options) { %>
+            <li class="pollListItem">
+              <input class="hidden" value="<%= option.question_text %>" name="options">
+              <%= option.question_text %>
+            </li>
+          <%}%>
+        </ul>
+        <h5 class="thisOne">Not this one...</h5>
+      </section>
+      <%if(isSent[0].isSent) {%>
+        <input id="voteBut" type="submit" value="Vote">
+      <%}%>
+    </form>
+  </section>
 <% } %>
