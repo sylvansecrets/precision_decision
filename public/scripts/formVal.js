@@ -39,12 +39,15 @@ $(document).ready(function(){
 
     if (question_check === ""){
       question_valid = false;
-      console.log('questionable')
       $('#container').append('<p class="warning"> The question field cannot be blank </p>');
     }
     if (option_check.indexOf("") !== -1){
       option_valid = false;
       $('#container').append('<p class="warning"> One or more options are blank </p>')
+    }
+    if (option_check.length === 1){
+      option_valid = false;
+      $('#container').append('<p class="warning"> N votes, one option is no better than One Man, One Vote </p>')
     }
     let email_valid = true;
     for (let email of email_check){
