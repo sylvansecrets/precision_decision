@@ -332,11 +332,22 @@ app.post('/polls/:id/vote', (req,res) => {
   const numOfOptions = req.body.options.length;
 
   function getOptionId(pollId, optionText) {
-        return knex.select('id')
+        return knex.first('id')
                .from('options')
                .where({ question_text: optionText,
                         poll_id: pollId
                      })
+  }
+
+  function rankPromise(unique_string, optionText, rank, pollId){
+    return getOptionId(pollId, optionText)
+      .then((optionId) => {
+        optionId = optionId.id
+        const voteObj = {};
+        voteObj[optionId] = rank;
+        console.log(unique_string, voteObj);
+        addRank.addRank(unique_string, voteObj);
+      })
   }
 
   knex.select('poll_id')
@@ -344,18 +355,14 @@ app.post('/polls/:id/vote', (req,res) => {
       .where('unique_string', uniqueId)
       .then((resolutions) => {
         const pollId = resolutions[0].poll_id;
+        let rankInserts = [];
         for(let i = 0; i < numOfOptions; i++) {
-          return getOptionId(pollId, voteArray[i])
-          .then((resolutions) => {
-            let id = resolutions[0].id;
-            const voteObj = {};
-            voteObj[id] = i;
-            addRank.addRank(uniqueId, voteObj)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        }
+          rankInserts.push(rankPromise(uniqueId, voteArray[i], i, pollId))
+          }
+        return Promise.all(rankInserts);
+      })
+      .catch((error) => {
+        console.log(error);
       })
       .then(() => {
         res.redirect(`/polls/${uniqueId}`);
@@ -364,6 +371,7 @@ app.post('/polls/:id/vote', (req,res) => {
           console.log(error);
       })
 });
+
 
 // +------------------------------------------+
 // |             CLOSE POLL                   |
